@@ -1,0 +1,45 @@
+#include <string>
+#include <vector>
+
+class Video {
+    std::string id;
+    std::string uploaderUsername;
+    int age;
+    std::string category;
+    int length;
+    int numViews;
+    float overallRating;
+    int numRatings;
+    int numComments;
+    std::vector<std::string> relatedIDs;
+
+public:
+
+    // ----------  CONSTRUCTOR ---------- //
+    Video(
+        std::string id,
+        std::string uploaderUsername,
+        int age,
+        std::string category,
+        int length,
+        int numViews,
+        float overallRating,
+        int numRatings,
+        int numComments,
+        std::vector<std::string> relatedIDs
+    );
+
+    // ----------  GETTER FUNCTIONS ---------- //
+    std::string getID() const;
+    std::string getUploaderUsername() const;
+    int getAge() const; // Note that a greater number here means a younger video
+    std::string getCategory() const;
+    int getLength() const;
+    int getNumViews() const;
+    float getOverallRating() const;
+    int getNumRatings() const;
+    int getNumComments() const;
+    std::vector<std::string> getRelatedIDs() const;
+    std::string getVideoURL() const;
+};
+
