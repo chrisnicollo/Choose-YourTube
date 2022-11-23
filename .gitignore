@@ -1,0 +1,6 @@
+# Ignore configuration files
+.vscode/
+
+
+# Please put any other files/folders here 
+# that you would not like in the public repo
