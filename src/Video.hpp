@@ -12,22 +12,23 @@ class Video {
     int numRatings;
     int numComments;
     std::vector<std::string> relatedIDs;
+    bool nullState;
+    // 'null' is to account for finding ID's without data in the graph
 
 public:
-
     // ----------  CONSTRUCTOR ---------- //
     Video(
-        std::string id,
-        std::string uploaderUsername,
-        int age,
-        std::string category,
-        int length,
-        int numViews,
-        float overallRating,
-        int numRatings,
-        int numComments,
-        std::vector<std::string> relatedIDs
-    );
+    std::string id,
+    std::string uploaderUsername,
+    int age,
+    std::string category,
+    int length,
+    int numViews,
+    float overallRating,
+    int numRatings,
+    int numComments,
+    std::vector<std::string> relatedIDs,
+    bool nullState = false);
 
     // ----------  GETTER FUNCTIONS ---------- //
     std::string getID() const;
@@ -40,6 +41,6 @@ public:
     int getNumRatings() const;
     int getNumComments() const;
     std::vector<std::string> getRelatedIDs() const;
-    std::string getVideoURL() const;
+    bool isNull() const;
+    std::string getURL() const;
 };
-

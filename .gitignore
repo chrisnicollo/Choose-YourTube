@@ -1,5 +1,11 @@
 # Ignore configuration files
 .vscode/
+build/
+local-notes/
+test-unit/
+
+# Ignore executables
+src/main.exe
 
 
 # Please put any other files/folders here 
