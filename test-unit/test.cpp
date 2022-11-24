@@ -26,6 +26,7 @@ TEST_CASE("Test Case 1", "[non-null video]"){
 		"_oPYs-LNYGo", "GzqvzhpLfIg", "f2uBfi4miC8", "8Eaj9OZ--K0", "mj7mYbHEasI",
 		"gJ0I92_1Vt8", "n58uchRpgO0", "jDVPJ_7dS3k", "KizKliQvF_M", "w8dpP4uQglk"
 	};
+	/*
     Video vid(id, uploaderUsername, age, category, length,
 	 numViews, overallRating, numRatings, numComments, relatedIDs);
 
@@ -49,7 +50,7 @@ TEST_CASE("Test Case 1", "[non-null video]"){
     }
     auto iter = temp.begin();
     std::cout << iter->first << ", " << iter->second.getURL();
-
+	*/
 	// Checking creating videos with vectors works
 	Video vid_vec(std::vector<std::string> {id, uploaderUsername, "776", category, "249",
 	"1556837", "4.61", "7314", "3899"}, relatedIDs);
@@ -71,9 +72,10 @@ TEST_CASE("Test Case 1", "[non-null video]"){
 
 TEST_CASE("Test Case 2", "[null video]"){
     std::string id = "W91sqAs-_-g";
+	std::vector<std::string> emptyVec;
+	/*
     Video vid(id, "", -1, "", -1, -1, -1, -1, -1, 
     std::vector<std::string>(), true);
-	std::vector<std::string> emptyVec;
 
 	REQUIRE(vid.getID() == id);
 	REQUIRE(vid.getUploaderUsername() == "");
@@ -100,7 +102,7 @@ TEST_CASE("Test Case 2", "[null video]"){
 		std::cout << "\nnull video\n";
 	}
 	std::cout << vid.isNull();
-
+	*/
 	// Checking creating videos with vectors works
 	Video vid_vec(std::vector<std::string> {id, "", "-1", "", "-1",
 	"-1", "-1", "-1", "-1"}, std::vector<std::string>(), true);
@@ -120,7 +122,7 @@ TEST_CASE("Test Case 2", "[null video]"){
 	// REQUIRE(vid_vec.isNull() == vid.isNull());
 	// REQUIRE(true == true);
 	REQUIRE(vid_vec.getRelatedIDs().size() == 0);
-	if (vid.isNull()) {
+	if (vid_vec.isNull()) {
 		std::cout << "\nnull vector video\n";
 	}
 
