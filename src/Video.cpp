@@ -1,6 +1,7 @@
 #include "Video.hpp"
 
-// ----------  CONSTRUCTOR ---------- //
+// ----------  CONSTRUCTORS ---------- //
+/*
 Video::Video(std::string id,
 std::string uploaderUsername,
 int age,
@@ -21,6 +22,21 @@ bool nullState) {
     this->overallRating = overallRating;
     this->numRatings = numRatings;
     this-> numComments = numComments;
+    this->relatedIDs = relatedIDs;
+}
+*/
+
+Video::Video(std::vector<std::string> stats, std::vector<std::string> relatedIDs,
+bool nullState) {
+    this->id = stats.at(0);
+    this->uploaderUsername = stats.at(1);
+    this->age = stoi(stats.at(2));
+    this->category = stats.at(3);
+    this->length = stoi(stats.at(4));
+    this->numViews = stoi(stats.at(5));
+    this->overallRating = std::stof(stats.at(6));
+    this->numRatings = stoi(stats.at(7));
+    this-> numComments = stoi(stats.at(8));
     this->relatedIDs = relatedIDs;
 }
 

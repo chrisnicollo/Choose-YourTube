@@ -45,7 +45,10 @@ Graph::~Graph() {
 Video* Graph::getCurrVideo(std::string currID) const {
     auto currVidIter = idToVideo.find(currID);
     if (currVidIter == idToVideo.end()) {
-        Video* nullVid = new Video(currID, "", -1, "", -1, -1, -1, -1, -1, 
+        /// TODO: Phase long constructor out of use
+        // Video* nullVid = new Video(currID, "", -1, "", -1, -1, -1, -1, -1, 
+        // std::vector<std::string>(), true);
+        Video* nullVid = new Video(std::vector<std::string> {currID, "", "-1", "", "-1", "-1", "-1", "-1", "-1"},
         std::vector<std::string>(), true);
         return nullVid;
     }
@@ -79,6 +82,7 @@ bool Graph::addToTraversal(std::unordered_set<std::string>& visited, std::string
     }
 
 // ----------  GRAPH CREATION ---------- //
+/*
 void Graph::insertRootVideo(
 std::string id,
 std::string uploaderUsername,
@@ -110,6 +114,19 @@ std::vector<std::string> relatedIDs) {
     Video* newVid = new Video(id, uploaderUsername, age, category, length,
     numViews, overallRating, numRatings, numComments, relatedIDs);
     idToVideo.emplace(id, newVid);
+}
+*/
+
+void Graph::insertRootVideo(std::vector<std::string> stats,
+std::vector<std::string> relatedIDs) {
+    insertVideo(stats, relatedIDs);
+    rootVideoIDs.push_back(stats.at(0));
+}
+
+void Graph::insertVideo(std::vector<std::string> stats,
+std::vector<std::string> relatedIDs) {
+    Video* newVid = new Video(stats, relatedIDs);
+    idToVideo.emplace(newVid->getID(), newVid);
 }
 
 // ----------  GRAPH TRAVERSALS ---------- //

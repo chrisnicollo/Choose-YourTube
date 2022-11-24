@@ -30,7 +30,9 @@ class Graph {
 
 public:
 
-    // ----------  GRAPH MODIFICATION ---------- //
+    // ----------  GRAPH CREATION ---------- //
+    /// TODO: Phase long insert out of use
+    /*
     void insertRootVideo( // Insert a video from file 0.txt (the roots)
     std::string id,
     std::string uploaderUsername,
@@ -43,6 +45,7 @@ public:
     int numComments,
     std::vector<std::string> relatedIDs);
 
+    /// TODO: Phase long insert out of use
     void insertVideo( // Insert a video not from file 0.txt
     std::string id,
     std::string uploaderUsername,
@@ -54,6 +57,13 @@ public:
     int numRatings,
     int numComments,
     std::vector<std::string> relatedIDs);
+    */
+
+    void insertRootVideo(std::vector<std::string> stats,
+    std::vector<std::string> relatedIDs);  // Insert a video from file 0.txt (the roots)
+
+    void insertVideo(std::vector<std::string> stats,
+    std::vector<std::string> relatedIDs);  // Insert a video not from file 0.txt
 
     // ----------  GRAPH TRAVERSALS ---------- //
     std::vector<Video*> traverseBreadthFirstN(std::string id, int n) const; 

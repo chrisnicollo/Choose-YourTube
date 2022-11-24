@@ -49,6 +49,23 @@ TEST_CASE("Test Case 1", "[non-null video]"){
     }
     auto iter = temp.begin();
     std::cout << iter->first << ", " << iter->second.getURL();
+
+	// Checking creating videos with vectors works
+	Video vid_vec(std::vector<std::string> {id, uploaderUsername, "776", category, "249",
+	"1556837", "4.61", "7314", "3899"}, relatedIDs);
+
+	REQUIRE(vid_vec.getID() == id);
+	REQUIRE(vid_vec.getUploaderUsername() == uploaderUsername);
+	REQUIRE(vid_vec.getAge() == age);
+	REQUIRE(vid_vec.getCategory() == category);
+	REQUIRE(vid_vec.getLength() == length);
+	REQUIRE(vid_vec.getNumViews() == numViews);
+	REQUIRE(vid_vec.getOverallRating() == overallRating);
+	REQUIRE(vid_vec.getNumRatings() == numRatings);
+	REQUIRE(vid_vec.getNumComments() == numComments);
+	REQUIRE(vid_vec.getRelatedIDs() == relatedIDs);
+	REQUIRE(vid_vec.getURL() == "https://www.youtube.com/watch?v=W91sqAs-_-g");
+	REQUIRE(vid_vec.isNull() == false);
 }
 
 
@@ -83,6 +100,30 @@ TEST_CASE("Test Case 2", "[null video]"){
 		std::cout << "\nnull video\n";
 	}
 	std::cout << vid.isNull();
+
+	// Checking creating videos with vectors works
+	Video vid_vec(std::vector<std::string> {id, "", "-1", "", "-1",
+	"-1", "-1", "-1", "-1"}, std::vector<std::string>(), true);
+
+	REQUIRE(vid_vec.getID() == id);
+	REQUIRE(vid_vec.getUploaderUsername() == "");
+	REQUIRE(vid_vec.getAge() == -1);
+	REQUIRE(vid_vec.getCategory() == "");
+	REQUIRE(vid_vec.getLength() == -1);
+	REQUIRE(vid_vec.getNumViews() == -1);
+	REQUIRE(vid_vec.getOverallRating() == -1);
+	REQUIRE(vid_vec.getNumRatings() == -1);
+	REQUIRE(vid_vec.getNumComments() == -1);
+	REQUIRE(vid_vec.getRelatedIDs() == emptyVec);
+	REQUIRE(vid_vec.getURL() == "https://www.youtube.com/watch?v=W91sqAs-_-g");
+	// REQUIRE(vid_vec.isNull() == true);
+	// REQUIRE(vid_vec.isNull() == vid.isNull());
+	// REQUIRE(true == true);
+	REQUIRE(vid_vec.getRelatedIDs().size() == 0);
+	if (vid.isNull()) {
+		std::cout << "\nnull vector video\n";
+	}
+
 }
 
 /// TODO: Begin graph checks with smaller amounts of data
@@ -90,3 +131,4 @@ TEST_CASE("Test Case 2", "[null video]"){
 /// Check that the traversals work as expected
 /// Check that large graph isn't overly slow
 /// Check what happens with returning null vids (make sure it works)
+/// Check that creating videos via vector works
