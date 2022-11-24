@@ -41,16 +41,6 @@ Graph::~Graph() {
 }
 
 // ----------  GRAPH TRAVERSAL HELPERS ---------- //
-bool Graph::addToTraversal(std::unordered_set<std::string>& visited, std::string videoID) const {
-    if (visited.find(videoID) == visited.end()) {
-        visited.insert(videoID);
-        if (passesFilter(videoID)) {
-            return true;
-        }
-    }
-    return false;
-}
-
 /// TODO: Delete this if we don't want to return null videos at all
 Video* Graph::getCurrVideo(std::string currID) const {
     auto currVidIter = idToVideo.find(currID);
@@ -62,7 +52,33 @@ Video* Graph::getCurrVideo(std::string currID) const {
     return currVidIter->second;
 }
 
-// ----------  GRAPH MODIFICATION ---------- //
+bool Graph::addToTraversal(std::unordered_set<std::string>& visited, std::string videoID) const {
+    if (visited.find(videoID) == visited.end()) {
+        visited.insert(videoID);
+        if (passesFilter(videoID)) {
+            return true;
+        }
+    }
+    return false;
+}
+
+    void Graph::helperTraversePostorderDepthFirstN(std::string currID,
+    std::vector<Video*>& result, std::unordered_set<std::string>& visited, int n) const {
+        if (result.size() < n) {
+            Video* currVid = getCurrVideo(currID);
+            for (int i = 0; i < currVid->getRelatedIDs().size(); i++) {
+                std::string neighborID = currVid->getRelatedIDs().at(i);
+                if (addToTraversal(visited, neighborID)) {
+                    helperTraversePostorderDepthFirstN(neighborID, result, visited, n);
+                }
+            }
+            if (result.size() < n) {
+                result.push_back(currVid);
+            }
+        }
+    }
+
+// ----------  GRAPH CREATION ---------- //
 void Graph::insertRootVideo(
 std::string id,
 std::string uploaderUsername,
@@ -126,9 +142,9 @@ std::vector<Video*> Graph::traverseBreadthFirstN(std::string id, int n) const {
     return result;
 }
 
-/// FIXME: POSTORDER
 std::vector<Video*> Graph::traversePostorderDepthFirstN(std::string id, int n) const {
     std::vector<Video*> result;
-
+    std::unordered_set<std::string> visited;
+    helperTraversePostorderDepthFirstN(id, result, visited, n);
     return result;
 }

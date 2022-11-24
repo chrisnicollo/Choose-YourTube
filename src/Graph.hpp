@@ -22,8 +22,11 @@ class Graph {
     ~Graph();
 
     // ----------  GRAPH TRAVERSAL HELPERS ---------- //
-    bool addToTraversal(std::unordered_set<std::string>& visited, std::string videoID) const;
     Video* getCurrVideo(std::string currID) const;
+    bool addToTraversal(std::unordered_set<std::string>& visited, std::string videoID) const;
+    void helperTraversePostorderDepthFirstN(std::string currID,
+    std::vector<Video*>& result, std::unordered_set<std::string>& visited, int n) const;
+
 
 public:
 
