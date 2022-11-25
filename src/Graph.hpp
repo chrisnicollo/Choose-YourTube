@@ -22,7 +22,7 @@ class Graph {
     void deleteVals();
 
     // ----------  GRAPH TRAVERSAL HELPERS ---------- //
-    Video* getCurrVideo(std::string currID) const;
+    // Video* getCurrVideo(std::string currID) const;
     bool addToTraversal(std::unordered_set<std::string>& visited, std::string videoID) const;
     void helperTraversePostorderDepthFirstN(std::string currID,
     std::vector<Video*>& result, std::unordered_set<std::string>& visited, int n) const;
@@ -37,46 +37,15 @@ public:
     ~Graph();
 
     // ----------  GRAPH CREATION ---------- //
-    /// TODO: Phase long insert out of use
-    /*
-    void insertRootVideo( // Insert a video from file 0.txt (the roots)
-    std::string id,
-    std::string uploaderUsername,
-    int age,
-    std::string category,
-    int length,
-    int numViews,
-    float overallRating,
-    int numRatings,
-    int numComments,
-    std::vector<std::string> relatedIDs);
-
-    /// TODO: Phase long insert out of use
-    void insertVideo( // Insert a video not from file 0.txt
-    std::string id,
-    std::string uploaderUsername,
-    int age,
-    std::string category,
-    int length,
-    int numViews,
-    float overallRating,
-    int numRatings,
-    int numComments,
-    std::vector<std::string> relatedIDs);
-    */
-
-   /*
-    void insertRootVideo(std::vector<std::string> stats,
-    std::vector<std::string> relatedIDs);  // Insert a video from file 0.txt (the roots)
-    */
-
     void insertVideo(std::vector<std::string> stats,
     std::vector<std::string> relatedIDs, bool isRoot);
 
     // ----------  GRAPH TRAVERSALS ---------- //
-    std::vector<Video*> traverseBreadthFirstN(std::string id, int n) const; 
-    std::vector<Video*> traversePostorderDepthFirstN(std::string id, int n) const;
-     // id of the video from which we are starting, and n 'neighbors' to find from it
+    /// TODO: Time the traversals
+    std::vector<Video*> traverseBreadthFirstN(std::string startID, int n) const; 
+    std::vector<Video*> traversePostorderDepthFirstN(std::string startID, int n) const;
+    // id of the video from which we are starting, and n 'neighbors' to find from it
+    // Note that these return smaller vectors than expected if graph has fewer nodes than requested
 
     // ----------  GETTERS ---------- //
     int getSize() const;

@@ -66,7 +66,6 @@ TEST_CASE("Test Case 1", "[non-null video]"){
 	REQUIRE(vid_vec.getNumComments() == numComments);
 	REQUIRE(vid_vec.getRelatedIDs() == relatedIDs);
 	REQUIRE(vid_vec.getURL() == "https://www.youtube.com/watch?v=W91sqAs-_-g");
-	REQUIRE(vid_vec.isNull() == false);
 }
 
 
@@ -105,7 +104,7 @@ TEST_CASE("Test Case 2", "[null video]"){
 	*/
 	// Checking creating videos with vectors works
 	Video vid_vec(std::vector<std::string> {id, "", "-1", "", "-1",
-	"-1", "-1", "-1", "-1"}, std::vector<std::string>(), true);
+	"-1", "-1", "-1", "-1"}, std::vector<std::string>());
 
 	REQUIRE(vid_vec.getID() == id);
 	REQUIRE(vid_vec.getUploaderUsername() == "");
@@ -122,9 +121,6 @@ TEST_CASE("Test Case 2", "[null video]"){
 	// REQUIRE(vid_vec.isNull() == vid.isNull());
 	// REQUIRE(true == true);
 	REQUIRE(vid_vec.getRelatedIDs().size() == 0);
-	if (vid_vec.isNull()) {
-		std::cout << "\nnull vector video\n";
-	}
 }
 
 TEST_CASE("Test Case 3", "[create graph][small]") {
@@ -197,14 +193,35 @@ TEST_CASE("Test Case 5", "[parse files]") {
 	Parser::readData(g, "test", "io-data/");
 	REQUIRE(g.getRootVideoIDs() == std::vector<std::string> {"W91sqAs-_-g", "oqcaJ4NrUKA", "XSGc5Vkh_1g", "zPvmwuLaXhE", "rx6zsub-neU"});
     REQUIRE(g.getSize() == 60);
-	// std:: cout << g.getSize();
+	std::vector<std::string> roots = g.getRootVideoIDs();
+	for (int i = 0; i < roots.size(); i++) {
+		std::cout << roots.at(i) << ", ";
+	}
+	std::cout << g.getSize();
 }
 
+TEST_CASE("Test Case 6", "[parse files][traversals]") {
+	Graph g;
+	Parser::readData(g, "test", "io-data/");
+	REQUIRE(g.getRootVideoIDs() == std::vector<std::string> {"W91sqAs-_-g", "oqcaJ4NrUKA", "XSGc5Vkh_1g", "zPvmwuLaXhE", "rx6zsub-neU"});
+    REQUIRE(g.getSize() == 60);
+	std::vector<std::string> roots = g.getRootVideoIDs();
+	for (int i = 0; i < roots.size(); i++) {
+		std::cout << roots.at(i) << ", ";
+	}
+	std::cout << g.getSize() << std::endl;
+
+	/// TODO: formally test traversals
+
+}
+
+
+
 /// TODO: Begin graph checks with smaller amounts of data
-/// Check that the traversals work as expected
+/// Check that the traversals work as expected (they appear to)
 /// Check that large graph isn't overly slow
-/// Check what happens with returning null vids (make sure it works)
-/// Check that creating videos via vector works
 
 // Finished checks
 // Confirmed that graph destruction doesn't segfault
+/// Confirmed that creating videos via vector works
+/// Checked destruction

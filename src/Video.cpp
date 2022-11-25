@@ -1,33 +1,7 @@
 #include "Video.hpp"
 
 // ----------  CONSTRUCTORS ---------- //
-/*
-Video::Video(std::string id,
-std::string uploaderUsername,
-int age,
-std::string category,
-int length,
-int numViews,
-float overallRating,
-int numRatings,
-int numComments,
-std::vector<std::string> relatedIDs,
-bool nullState) {
-    this->id = id;
-    this->uploaderUsername = uploaderUsername;
-    this->age = age;
-    this->category = category;
-    this->length = length;
-    this->numViews = numViews;
-    this->overallRating = overallRating;
-    this->numRatings = numRatings;
-    this-> numComments = numComments;
-    this->relatedIDs = relatedIDs;
-}
-*/
-
-Video::Video(std::vector<std::string> stats, std::vector<std::string> relatedIDs,
-bool nullState) {
+Video::Video(std::vector<std::string> stats, std::vector<std::string> relatedIDs) {
     this->id = stats.at(0);
     this->uploaderUsername = stats.at(1);
     this->age = stoi(stats.at(2));
@@ -79,10 +53,6 @@ int Video::getNumComments() const {
 
 std::vector<std::string> Video::getRelatedIDs() const {
     return relatedIDs;
-}
-
-bool Video::isNull() const {
-    return nullState;
 }
 
 std::string Video::getURL() const{

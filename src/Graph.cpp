@@ -22,12 +22,14 @@ void Graph::deleteVals() {
     rootVideoIDs.clear();
     for (auto iter = idToVideo.begin(); iter != idToVideo.end(); iter++) {
         delete iter->second;
+        size--;
     }
     idToVideo.clear();
 }
 
 // ----------  GRAPH TRAVERSAL HELPERS ---------- //
 /// TODO: Delete this if we don't want to return null videos at all
+/*
 Video* Graph::getCurrVideo(std::string currID) const {
     auto currVidIter = idToVideo.find(currID);
     if (currVidIter == idToVideo.end()) {
@@ -40,6 +42,7 @@ Video* Graph::getCurrVideo(std::string currID) const {
     }
     return currVidIter->second;
 }
+*/
 
 bool Graph::addToTraversal(std::unordered_set<std::string>& visited, std::string videoID) const {
     if (visited.find(videoID) == visited.end()) {
@@ -53,8 +56,9 @@ bool Graph::addToTraversal(std::unordered_set<std::string>& visited, std::string
 
 void Graph::helperTraversePostorderDepthFirstN(std::string currID,
 std::vector<Video*>& result, std::unordered_set<std::string>& visited, int n) const {
-    if (result.size() < n) {
-        Video* currVid = getCurrVideo(currID);
+    auto currVidIter = idToVideo.find(currID);
+    if (result.size() < n && currVidIter != idToVideo.end()) {
+        Video* currVid = currVidIter->second;
         for (int i = 0; i < currVid->getRelatedIDs().size(); i++) {
             std::string neighborID = currVid->getRelatedIDs().at(i);
             if (addToTraversal(visited, neighborID)) {
@@ -85,49 +89,6 @@ Graph::~Graph() {
 }  
 
 // ----------  GRAPH CREATION ---------- //
-/*
-void Graph::insertRootVideo(
-std::string id,
-std::string uploaderUsername,
-int age,
-std::string category,
-int length,
-int numViews,
-float overallRating,
-int numRatings,
-int numComments,
-std::vector<std::string> relatedIDs) {
-    insertVideo(id, uploaderUsername, age, category, length,
-    numViews, overallRating, numRatings, numComments, relatedIDs);
-    rootVideoIDs.push_back(id);
-    
-}
-
-void Graph::insertVideo(
-std::string id,
-std::string uploaderUsername,
-int age,
-std::string category,
-int length,
-int numViews,
-float overallRating,
-int numRatings,
-int numComments,
-std::vector<std::string> relatedIDs) {
-    Video* newVid = new Video(id, uploaderUsername, age, category, length,
-    numViews, overallRating, numRatings, numComments, relatedIDs);
-    idToVideo.emplace(id, newVid);
-}
-*/
-
-/*
-void Graph::insertRootVideo(std::vector<std::string> stats,
-std::vector<std::string> relatedIDs) {
-    insertVideo(stats, relatedIDs);
-    rootVideoIDs.push_back(stats.at(0));
-}
-*/
-
 void Graph::insertVideo(std::vector<std::string> stats,
 std::vector<std::string> relatedIDs, bool isRoot) {
     Video* newVid = new Video(stats, relatedIDs);
@@ -144,34 +105,62 @@ std::vector<std::string> relatedIDs, bool isRoot) {
 /// TODO: How do we want to handle a video that's just an id and no other data? 
     /// Do we not want to show it, thus I don't return it?
     /// Right now, I am returning it but can change that
-std::vector<Video*> Graph::traverseBreadthFirstN(std::string id, int n) const {
+std::vector<Video*> Graph::traverseBreadthFirstN(std::string startID, int n) const {
     std::vector<Video*> result;
-    int count = 0;
 
     std::unordered_set<std::string> visited;
     std::queue<std::string> q;
-    visited.insert(id);
-    q.push(id);
-    while (!q.empty() && count < n) {
-        std::string currID = q.front();
-        q.pop();
-        Video* currVid = getCurrVideo(currID);
-        result.push_back(currVid);
-        for (int neighborInd = 0; neighborInd < currVid->getRelatedIDs().size(); neighborInd++) {
-            std::string neighborID = currVid->getRelatedIDs().at(neighborInd);
+    visited.insert(startID);
+
+    // Avoid adding startID to result
+    auto startVidIter = idToVideo.find(startID);
+    if (startVidIter != idToVideo.end()) {
+        Video* startVid = startVidIter->second;
+        for (int neighborInd = 0; neighborInd < startVid->getRelatedIDs().size(); neighborInd++) {
+            std::string neighborID = startVid->getRelatedIDs().at(neighborInd);
             if (addToTraversal(visited, neighborID)) {
                 q.push(neighborID);                
             }
         }
-        n++;
+    }
+
+    // q.push(startID);
+    while (!q.empty() && result.size() < n) {
+        std::string currID = q.front();
+        q.pop();
+        auto currVidIter = idToVideo.find(currID);
+        if (currVidIter != idToVideo.end()) {
+            Video* currVid = currVidIter->second;
+            result.push_back(currVid);
+            for (int neighborInd = 0; neighborInd < currVid->getRelatedIDs().size(); neighborInd++) {
+                std::string neighborID = currVid->getRelatedIDs().at(neighborInd);
+                if (addToTraversal(visited, neighborID)) {
+                    /// TODO: Delete debug statement
+                    if (neighborID == startID) {
+                        int i = 0;
+                    }
+                    q.push(neighborID);                
+                }
+            }
+        }
+
     }
     return result;
 }
 
-std::vector<Video*> Graph::traversePostorderDepthFirstN(std::string id, int n) const {
+std::vector<Video*> Graph::traversePostorderDepthFirstN(std::string startID, int n) const {
     std::vector<Video*> result;
     std::unordered_set<std::string> visited;
-    helperTraversePostorderDepthFirstN(id, result, visited, n);
+
+    // Avoid adding startID to result
+    auto startVidIter = idToVideo.find(startID);
+    if (startVidIter != idToVideo.end()) {
+        Video* startVid = startVidIter->second;
+        for (int neighborInd = 0; neighborInd < startVid->getRelatedIDs().size(); neighborInd++) {
+            std::string neighborID = startVid->getRelatedIDs().at(neighborInd);
+            helperTraversePostorderDepthFirstN(neighborID, result, visited, n);
+        }
+    }
     return result;
 }
 
