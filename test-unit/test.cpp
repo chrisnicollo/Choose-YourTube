@@ -2,7 +2,6 @@
 #include "../src/main.cpp"
 #include "catch.hpp"
 #include <iostream>
-
 // Include any necessary files
 
 /*
@@ -26,31 +25,7 @@ TEST_CASE("Test Case 1", "[non-null video]"){
 		"_oPYs-LNYGo", "GzqvzhpLfIg", "f2uBfi4miC8", "8Eaj9OZ--K0", "mj7mYbHEasI",
 		"gJ0I92_1Vt8", "n58uchRpgO0", "jDVPJ_7dS3k", "KizKliQvF_M", "w8dpP4uQglk"
 	};
-	/*
-    Video vid(id, uploaderUsername, age, category, length,
-	 numViews, overallRating, numRatings, numComments, relatedIDs);
 
-	REQUIRE(vid.getID() == id);
-	REQUIRE(vid.getUploaderUsername() == uploaderUsername);
-	REQUIRE(vid.getAge() == age);
-	REQUIRE(vid.getCategory() == category);
-	REQUIRE(vid.getLength() == length);
-	REQUIRE(vid.getNumViews() == numViews);
-	REQUIRE(vid.getOverallRating() == overallRating);
-	REQUIRE(vid.getNumRatings() == numRatings);
-	REQUIRE(vid.getNumComments() == numComments);
-	REQUIRE(vid.getRelatedIDs() == relatedIDs);
-	REQUIRE(vid.getURL() == "https://www.youtube.com/watch?v=W91sqAs-_-g");
-	REQUIRE(vid.isNull() == false);
-
-	std::unordered_map<std::string, Video> temp;
-    bool x = true;
-    if (x == true) {
-        temp.emplace(id, vid);
-    }
-    auto iter = temp.begin();
-    std::cout << iter->first << ", " << iter->second.getURL();
-	*/
 	// Checking creating videos with vectors works
 	Video vid_vec(std::vector<std::string> {id, uploaderUsername, "776", category, "249",
 	"1556837", "4.61", "7314", "3899"}, relatedIDs);
@@ -72,36 +47,7 @@ TEST_CASE("Test Case 1", "[non-null video]"){
 TEST_CASE("Test Case 2", "[null video]"){
     std::string id = "W91sqAs-_-g";
 	std::vector<std::string> emptyVec;
-	/*
-    Video vid(id, "", -1, "", -1, -1, -1, -1, -1, 
-    std::vector<std::string>(), true);
 
-	REQUIRE(vid.getID() == id);
-	REQUIRE(vid.getUploaderUsername() == "");
-	REQUIRE(vid.getAge() == -1);
-	REQUIRE(vid.getCategory() == "");
-	REQUIRE(vid.getLength() == -1);
-	REQUIRE(vid.getNumViews() == -1);
-	REQUIRE(vid.getOverallRating() == -1);
-	REQUIRE(vid.getNumRatings() == -1);
-	REQUIRE(vid.getNumComments() == -1);
-	REQUIRE(vid.getRelatedIDs() == emptyVec);
-	REQUIRE(vid.getURL() == "https://www.youtube.com/watch?v=W91sqAs-_-g");
-	// REQUIRE(vid.isNull() == true);
-	// REQUIRE(vid.isNull() == vid.isNull());
-	// REQUIRE(true == true);
-	REQUIRE(vid.getRelatedIDs().size() == 0);
-
-	for (int i = 0; i < vid.getRelatedIDs().size(); i++) {
-		std::cout << "item " << i << ": " << vid.getRelatedIDs().at(i) << "\n";
-		emptyVec.push_back(vid.getRelatedIDs().at(i));
-	}
-	REQUIRE(emptyVec.size() == 0);
-	if (vid.isNull()) {
-		std::cout << "\nnull video\n";
-	}
-	std::cout << vid.isNull();
-	*/
 	// Checking creating videos with vectors works
 	Video vid_vec(std::vector<std::string> {id, "", "-1", "", "-1",
 	"-1", "-1", "-1", "-1"}, std::vector<std::string>());
@@ -117,9 +63,6 @@ TEST_CASE("Test Case 2", "[null video]"){
 	REQUIRE(vid_vec.getNumComments() == -1);
 	REQUIRE(vid_vec.getRelatedIDs() == emptyVec);
 	REQUIRE(vid_vec.getURL() == "https://www.youtube.com/watch?v=W91sqAs-_-g");
-	// REQUIRE(vid_vec.isNull() == true);
-	// REQUIRE(vid_vec.isNull() == vid.isNull());
-	// REQUIRE(true == true);
 	REQUIRE(vid_vec.getRelatedIDs().size() == 0);
 }
 
@@ -145,6 +88,7 @@ TEST_CASE("Test Case 3", "[create graph][small]") {
 	// first insert
 	g.insertVideo(stats, relatedIDs, true);
 	REQUIRE(g.getSize() == 1);
+	REQUIRE(g.getNumRootVideos() == 1);
 	REQUIRE(g.getRootVideoIDs() == std::vector<std::string> {"W91sqAs-_-g"});
 
 	// second insert
@@ -158,6 +102,7 @@ TEST_CASE("Test Case 3", "[create graph][small]") {
 	};
 	g.insertVideo(stats, relatedIDs, true);
 	REQUIRE(g.getSize() == 2);
+	REQUIRE(g.getNumRootVideos() == 2);
 	REQUIRE(g.getRootVideoIDs() == std::vector<std::string> {"W91sqAs-_-g", "Tz_Ees_-kE4"});
 
 	// third insert
@@ -171,12 +116,13 @@ TEST_CASE("Test Case 3", "[create graph][small]") {
 	};
 	g.insertVideo(stats, relatedIDs, false);
 	REQUIRE(g.getSize() == 3);
+	REQUIRE(g.getNumRootVideos() == 2);
 	REQUIRE(g.getRootVideoIDs() == std::vector<std::string> {"W91sqAs-_-g", "Tz_Ees_-kE4"});
 	
 }
 
 TEST_CASE("Test Case 4", "[parse input]") {
-
+	/*
     Graph g;
     std::string line = "W91sqAs-_-g	dusted21	776	Music	249	1556837	4.61	7314	3899	tZw-8RSyvh8	-L6tFCeR_ZQ	SgHk5JDCdx0	4U5dmIVBzq8	MwzSxbqyzcE	UFMx8fkpLNg	Jl2AaYYgIXo	XJaHmGD8UEk	gL3EjCPu-Q4	abGQ_ehWm2Y	_oPYs-LNYGo	GzqvzhpLfIg	f2uBfi4miC8	8Eaj9OZ--K0	mj7mYbHEasI	gJ0I92_1Vt8	n58uchRpgO0	jDVPJ_7dS3k	KizKliQvF_M	w8dpP4uQglk";
     Parser::readLine(g, line, false);
@@ -184,7 +130,9 @@ TEST_CASE("Test Case 4", "[parse input]") {
     Parser::readLine(g, line, false);
     line = "JVXcPrnwzHA	GetMoneyTV	776	Music	60	73467	4.28	72";
     Parser::readLine(g, line, false);
-	// Note that this test is just for eyeballing output
+	*/
+	// Note that this test was just for eyeballing output
+	// To run it, uncomment & make readLine public
 	
 }
 
@@ -198,6 +146,7 @@ TEST_CASE("Test Case 5", "[parse files]") {
 		std::cout << roots.at(i) << ", ";
 	}
 	std::cout << g.getSize();
+	REQUIRE(g.getNumRootVideos() == 5);
 }
 
 TEST_CASE("Test Case 6", "[parse files][traversals]") {
@@ -210,18 +159,18 @@ TEST_CASE("Test Case 6", "[parse files][traversals]") {
 		std::cout << roots.at(i) << ", ";
 	}
 	std::cout << g.getSize() << std::endl;
-
-	/// TODO: formally test traversals
-
 }
 
 
 
-/// TODO: Begin graph checks with smaller amounts of data
-/// Check that the traversals work as expected (they appear to)
-/// Check that large graph isn't overly slow
 
-// Finished checks
+/// TODO: formally test traversals
+
+
+// Finished checks:
 // Confirmed that graph destruction doesn't segfault
-/// Confirmed that creating videos via vector works
-/// Checked destruction
+// Confirmed that creating videos via vector works
+// Checked destruction
+// Confirmed that large graph isn't overly slow
+// Confirmed returning times works
+/// Checked that the traversals appear to work as expected

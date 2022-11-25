@@ -1,10 +1,14 @@
 #include "Graph.hpp"
 
-// ----------  TEMPORARY FILTER PLACEHOLDERS ---------- //
-bool Graph::passesFilter(std::string videoID) {
+// ----------  FILTERING ---------- //
+bool Graph::passesFilter(Video* currVid) const {
     /// TODO: Make this call to the actual filter function
     /// To filter out videos with characteristics the user
     /// Doesn't want to see
+
+    // float rating = currVid->getOverallRating();
+    // bool status = rating > 4.5;
+    // return status;
     return true;
 }
 
@@ -28,27 +32,12 @@ void Graph::deleteVals() {
 }
 
 // ----------  GRAPH TRAVERSAL HELPERS ---------- //
-/// TODO: Delete this if we don't want to return null videos at all
-/*
-Video* Graph::getCurrVideo(std::string currID) const {
-    auto currVidIter = idToVideo.find(currID);
-    if (currVidIter == idToVideo.end()) {
-        /// TODO: Phase long constructor out of use
-        // Video* nullVid = new Video(currID, "", -1, "", -1, -1, -1, -1, -1, 
-        // std::vector<std::string>(), true);
-        Video* nullVid = new Video(std::vector<std::string> {currID, "", "-1", "", "-1", "-1", "-1", "-1", "-1"},
-        std::vector<std::string>(), true);
-        return nullVid;
-    }
-    return currVidIter->second;
-}
-*/
-
 bool Graph::addToTraversal(std::unordered_set<std::string>& visited, std::string videoID) const {
     if (visited.find(videoID) == visited.end()) {
         visited.insert(videoID);
-        if (passesFilter(videoID)) {
-            return true;
+        auto currVidIter = idToVideo.find(videoID);
+        if (currVidIter != idToVideo.end()) {
+            return passesFilter(currVidIter->second);
         }
     }
     return false;
@@ -56,8 +45,8 @@ bool Graph::addToTraversal(std::unordered_set<std::string>& visited, std::string
 
 void Graph::helperTraversePostorderDepthFirstN(std::string currID,
 std::vector<Video*>& result, std::unordered_set<std::string>& visited, int n) const {
-    auto currVidIter = idToVideo.find(currID);
-    if (result.size() < n && currVidIter != idToVideo.end()) {
+    if (result.size() < n) {
+        auto currVidIter = idToVideo.find(currID);
         Video* currVid = currVidIter->second;
         for (int i = 0; i < currVid->getRelatedIDs().size(); i++) {
             std::string neighborID = currVid->getRelatedIDs().at(i);
@@ -72,7 +61,8 @@ std::vector<Video*>& result, std::unordered_set<std::string>& visited, int n) co
 }
 
 // ----------  MEMORY AND DATA MANAGEMENT FUNCTIONS ---------- //
-Graph::Graph() {} /// FIXME: Should this do anything?
+/// FIXME: Should this do anything?
+Graph::Graph() {}
 
 Graph::Graph(const Graph& original) {
     copyVals(original);
@@ -100,14 +90,10 @@ std::vector<std::string> relatedIDs, bool isRoot) {
 }
 
 // ----------  GRAPH TRAVERSALS ---------- //
-/// TODO: Check these return expected number of and type of results
-/// TODO: Determine how to handle being inputted a value n greater than number of nodes?
-/// TODO: How do we want to handle a video that's just an id and no other data? 
-    /// Do we not want to show it, thus I don't return it?
-    /// Right now, I am returning it but can change that
-std::vector<Video*> Graph::traverseBreadthFirstN(std::string startID, int n) const {
-    std::vector<Video*> result;
+std::pair<std::vector<Video*>, double> Graph::traverseBreadthFirstN(std::string startID, int n) const {
+    auto startTime = std::chrono::steady_clock::now();
 
+    std::vector<Video*> result;
     std::unordered_set<std::string> visited;
     std::queue<std::string> q;
     visited.insert(startID);
@@ -124,49 +110,70 @@ std::vector<Video*> Graph::traverseBreadthFirstN(std::string startID, int n) con
         }
     }
 
-    // q.push(startID);
+    // Continue from after startID
     while (!q.empty() && result.size() < n) {
         std::string currID = q.front();
         q.pop();
         auto currVidIter = idToVideo.find(currID);
-        if (currVidIter != idToVideo.end()) {
-            Video* currVid = currVidIter->second;
-            result.push_back(currVid);
-            for (int neighborInd = 0; neighborInd < currVid->getRelatedIDs().size(); neighborInd++) {
-                std::string neighborID = currVid->getRelatedIDs().at(neighborInd);
-                if (addToTraversal(visited, neighborID)) {
-                    /// TODO: Delete debug statement
-                    if (neighborID == startID) {
-                        int i = 0;
-                    }
-                    q.push(neighborID);                
-                }
+        Video* currVid = currVidIter->second;
+        result.push_back(currVid);
+        for (int neighborInd = 0; neighborInd < currVid->getRelatedIDs().size(); neighborInd++) {
+            std::string neighborID = currVid->getRelatedIDs().at(neighborInd);
+            if (addToTraversal(visited, neighborID)) {
+                q.push(neighborID);                
             }
         }
-
     }
-    return result;
+
+    auto endTime = std::chrono::steady_clock::now();
+    std::chrono::duration<double> timeDiff = endTime-startTime;
+    double runTime = timeDiff.count();
+    return std::pair<std::vector<Video*>, double>(result, runTime);
 }
 
-std::vector<Video*> Graph::traversePostorderDepthFirstN(std::string startID, int n) const {
+std::pair<std::vector<Video*>, double> Graph::traversePostorderDepthFirstN(std::string startID, int n) const {
+    auto startTime = std::chrono::steady_clock::now();
     std::vector<Video*> result;
     std::unordered_set<std::string> visited;
 
     // Avoid adding startID to result
+    visited.insert(startID);
     auto startVidIter = idToVideo.find(startID);
     if (startVidIter != idToVideo.end()) {
         Video* startVid = startVidIter->second;
         for (int neighborInd = 0; neighborInd < startVid->getRelatedIDs().size(); neighborInd++) {
             std::string neighborID = startVid->getRelatedIDs().at(neighborInd);
-            helperTraversePostorderDepthFirstN(neighborID, result, visited, n);
+            if (addToTraversal(visited, neighborID)) {
+                helperTraversePostorderDepthFirstN(neighborID, result, visited, n);
+            }
         }
     }
-    return result;
+
+    auto endTime = std::chrono::steady_clock::now();
+    std::chrono::duration<double> timeDiff = endTime-startTime;
+    double runTime = timeDiff.count();
+    return std::pair<std::vector<Video*>, double>(result, runTime);
 }
 
 // ----------  GETTERS ---------- //
 int Graph::getSize() const {
     return size;
+}
+
+int Graph::getNumRootVideos() const {
+    return rootVideoIDs.size();
+}
+
+std::vector<Video*> Graph::getNFilteredRootVideos(int n) const {
+    std::vector<Video*> result;
+    int ind = 0;
+    while (ind < rootVideoIDs.size() && result.size() < n) {
+        Video* currVid = idToVideo.find(rootVideoIDs.at(ind++))->second;
+        if (passesFilter(currVid)) {
+            result.push_back(currVid);
+        }
+    }
+    return result;
 }
 
 std::vector<std::string> Graph::getRootVideoIDs() const {
