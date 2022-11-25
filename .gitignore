@@ -2,6 +2,7 @@
 .vscode/
 build/
 local-notes/
+test-io/
 test-unit/catch.hpp
 
 # Ignore executables

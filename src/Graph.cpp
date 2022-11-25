@@ -8,7 +8,7 @@ bool Graph::passesFilter(std::string videoID) {
     return true;
 }
 
-// ----------  MEMORY AND DATA MANAGEMENT ---------- //
+// ----------  MEMORY AND DATA MANAGEMENT HELPERS ---------- //
 void Graph::copyVals(const Graph& original) {
     for (int i = 0; i < original.rootVideoIDs.size(); i++) {
         this->rootVideoIDs.push_back(original.rootVideoIDs.at(i));
@@ -24,20 +24,6 @@ void Graph::deleteVals() {
         delete iter->second;
     }
     idToVideo.clear();
-}
-
-Graph::Graph(const Graph& original) {
-    copyVals(original);
-}
-
-Graph& Graph::operator=(const Graph& original) {
-    deleteVals();
-    copyVals(original);
-    return *this;
-}
-
-Graph::~Graph() {
-    deleteVals();
 }
 
 // ----------  GRAPH TRAVERSAL HELPERS ---------- //
@@ -65,21 +51,38 @@ bool Graph::addToTraversal(std::unordered_set<std::string>& visited, std::string
     return false;
 }
 
-    void Graph::helperTraversePostorderDepthFirstN(std::string currID,
-    std::vector<Video*>& result, std::unordered_set<std::string>& visited, int n) const {
-        if (result.size() < n) {
-            Video* currVid = getCurrVideo(currID);
-            for (int i = 0; i < currVid->getRelatedIDs().size(); i++) {
-                std::string neighborID = currVid->getRelatedIDs().at(i);
-                if (addToTraversal(visited, neighborID)) {
-                    helperTraversePostorderDepthFirstN(neighborID, result, visited, n);
-                }
-            }
-            if (result.size() < n) {
-                result.push_back(currVid);
+void Graph::helperTraversePostorderDepthFirstN(std::string currID,
+std::vector<Video*>& result, std::unordered_set<std::string>& visited, int n) const {
+    if (result.size() < n) {
+        Video* currVid = getCurrVideo(currID);
+        for (int i = 0; i < currVid->getRelatedIDs().size(); i++) {
+            std::string neighborID = currVid->getRelatedIDs().at(i);
+            if (addToTraversal(visited, neighborID)) {
+                helperTraversePostorderDepthFirstN(neighborID, result, visited, n);
             }
         }
+        if (result.size() < n) {
+            result.push_back(currVid);
+        }
     }
+}
+
+// ----------  MEMORY AND DATA MANAGEMENT FUNCTIONS ---------- //
+Graph::Graph() {} /// FIXME: Should this do anything?
+
+Graph::Graph(const Graph& original) {
+    copyVals(original);
+}
+
+Graph& Graph::operator=(const Graph& original) {
+    deleteVals();
+    copyVals(original);
+    return *this;
+}
+
+Graph::~Graph() {
+    deleteVals();
+}  
 
 // ----------  GRAPH CREATION ---------- //
 /*
@@ -117,16 +120,22 @@ std::vector<std::string> relatedIDs) {
 }
 */
 
+/*
 void Graph::insertRootVideo(std::vector<std::string> stats,
 std::vector<std::string> relatedIDs) {
     insertVideo(stats, relatedIDs);
     rootVideoIDs.push_back(stats.at(0));
 }
+*/
 
 void Graph::insertVideo(std::vector<std::string> stats,
-std::vector<std::string> relatedIDs) {
+std::vector<std::string> relatedIDs, bool isRoot) {
     Video* newVid = new Video(stats, relatedIDs);
     idToVideo.emplace(newVid->getID(), newVid);
+    if (isRoot) {
+        rootVideoIDs.push_back(newVid->getID());
+    }
+    size++;
 }
 
 // ----------  GRAPH TRAVERSALS ---------- //
@@ -164,4 +173,13 @@ std::vector<Video*> Graph::traversePostorderDepthFirstN(std::string id, int n) c
     std::unordered_set<std::string> visited;
     helperTraversePostorderDepthFirstN(id, result, visited, n);
     return result;
+}
+
+// ----------  GETTERS ---------- //
+int Graph::getSize() const {
+    return size;
+}
+
+std::vector<std::string> Graph::getRootVideoIDs() const {
+    return rootVideoIDs;
 }

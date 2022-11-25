@@ -125,12 +125,86 @@ TEST_CASE("Test Case 2", "[null video]"){
 	if (vid_vec.isNull()) {
 		std::cout << "\nnull vector video\n";
 	}
+}
 
+TEST_CASE("Test Case 3", "[create graph][small]") {
+    std::string id = "W91sqAs-_-g";
+    std::string uploaderUsername = "dusted21";
+    int age = 776;
+    std::string category = "Music";
+    int length = 249;
+    int numViews = 1556837;
+    float overallRating = 4.61;
+    int numRatings = 7314;
+    int numComments = 3899;
+	std::vector<std::string> stats = {id, uploaderUsername, "776", category, "249",
+	"1556837", "4.61", "7314", "3899"};
+    std::vector<std::string> relatedIDs = {
+		"tZw-8RSyvh8", "-L6tFCeR_ZQ", "SgHk5JDCdx0", "4U5dmIVBzq8", "MwzSxbqyzcE",
+		"UFMx8fkpLNg", "Jl2AaYYgIXo", "XJaHmGD8UEk", "gL3EjCPu-Q4", "abGQ_ehWm2Y",
+		"_oPYs-LNYGo", "GzqvzhpLfIg", "f2uBfi4miC8", "8Eaj9OZ--K0", "mj7mYbHEasI",
+		"gJ0I92_1Vt8", "n58uchRpgO0", "jDVPJ_7dS3k", "KizKliQvF_M", "w8dpP4uQglk"
+	};
+	Graph g;
+	// first insert
+	g.insertVideo(stats, relatedIDs, true);
+	REQUIRE(g.getSize() == 1);
+	REQUIRE(g.getRootVideoIDs() == std::vector<std::string> {"W91sqAs-_-g"});
+
+	// second insert
+	stats.clear();
+	stats = {
+		"Tz_Ees_-kE4",	"palgy83",	"772",	"Comedy",	"456",	"64195",	"4.76",	"316",	"117"
+	};
+	relatedIDs.clear();
+	relatedIDs = {
+		"WjgxlqOlLFI",	"C7v6flubU64",	"AcFGUzg3tRQ",	"r-y96G3Ld2Y",	"RcLlwSA0MGI",	"ZOM6hkS6oMs",	"AzLXvGXm6GQ",	"uBVp0dgvbHc",	"dhAvj3xLi28",	"MN3_pRnT0Hs",	"NEjHAOJ3Vmw",	"zQSZFa03ZlI",	"2Up9LGlucv0",	"rBCFT7Sdt5w",	"b-_R0hmgwo4",	"X5IBJQk5LwA",	"q5kfujtWUkI",	"6j3KJvx85vk",	"ofhxOThaMIA",	"av1oymc77kc"
+	};
+	g.insertVideo(stats, relatedIDs, true);
+	REQUIRE(g.getSize() == 2);
+	REQUIRE(g.getRootVideoIDs() == std::vector<std::string> {"W91sqAs-_-g", "Tz_Ees_-kE4"});
+
+	// third insert
+	stats.clear();
+	stats = {
+		"BcEg5VmcL7s",	"CapnOAwesome",	"772",	"People & Blogs",	"1057",	"4163",	"4.37",	"315",	"239"
+	};
+	relatedIDs.clear();
+	relatedIDs = {
+		"oqYqL07MMRE"	"pGXfuz2ErAo"	"Zqj-iN1xILQ"	"rdo9AprmLbU"	"UVh47R2J7qI"	"eh5PJdhhYuY"	"_7Dzs6OLD40"	"HiXFR62IGQ0"	"RHDnI3cZ7Tk"	"L5jSa-QqX_s"	"50G6gKQ7iDQ"	"xp6sbC--d68"	"GNr0zEwcUAg"	"l_QMv1Q9M9w"	"fZyEv96Fiyo"	"H30UAP8x4Dc"	"Wgu345gtpJY"	"2NztFqqOYuI"	"JcbmH1qsZYk"	"P3fHY1T89Pw"
+	};
+	g.insertVideo(stats, relatedIDs, false);
+	REQUIRE(g.getSize() == 3);
+	REQUIRE(g.getRootVideoIDs() == std::vector<std::string> {"W91sqAs-_-g", "Tz_Ees_-kE4"});
+	
+}
+
+TEST_CASE("Test Case 4", "[parse input]") {
+
+    Graph g;
+    std::string line = "W91sqAs-_-g	dusted21	776	Music	249	1556837	4.61	7314	3899	tZw-8RSyvh8	-L6tFCeR_ZQ	SgHk5JDCdx0	4U5dmIVBzq8	MwzSxbqyzcE	UFMx8fkpLNg	Jl2AaYYgIXo	XJaHmGD8UEk	gL3EjCPu-Q4	abGQ_ehWm2Y	_oPYs-LNYGo	GzqvzhpLfIg	f2uBfi4miC8	8Eaj9OZ--K0	mj7mYbHEasI	gJ0I92_1Vt8	n58uchRpgO0	jDVPJ_7dS3k	KizKliQvF_M	w8dpP4uQglk";
+    Parser::readLine(g, line, false);
+    line = "JVXcPrnwzHA	GetMoneyTV	776	Music	60	73467	4.28	72	61	JVXcPrnwzHA	mMZOChNioD4	BBNu1AErWAw	Ea8M0WtU7vs	REuYnkUjaJU	T0RshhRW4fE	DzYaIq9FDRc	Swa4FRX6rHE	fvPC1ABp4VE";
+    Parser::readLine(g, line, false);
+    line = "JVXcPrnwzHA	GetMoneyTV	776	Music	60	73467	4.28	72";
+    Parser::readLine(g, line, false);
+	// Note that this test is just for eyeballing output
+	
+}
+
+TEST_CASE("Test Case 5", "[parse files]") {
+	Graph g;
+	Parser::readData(g, "test", "io-data/");
+	REQUIRE(g.getRootVideoIDs() == std::vector<std::string> {"W91sqAs-_-g", "oqcaJ4NrUKA", "XSGc5Vkh_1g", "zPvmwuLaXhE", "rx6zsub-neU"});
+    REQUIRE(g.getSize() == 60);
+	// std:: cout << g.getSize();
 }
 
 /// TODO: Begin graph checks with smaller amounts of data
-/// TODO: Check that graph destruction doesn't segfault
 /// Check that the traversals work as expected
 /// Check that large graph isn't overly slow
 /// Check what happens with returning null vids (make sure it works)
 /// Check that creating videos via vector works
+
+// Finished checks
+// Confirmed that graph destruction doesn't segfault
