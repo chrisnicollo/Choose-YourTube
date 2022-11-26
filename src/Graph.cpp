@@ -3,9 +3,9 @@
 // ----------  FILTERING ---------- //
 bool Graph::passesFilter(Video* currVid) const {
     /// TODO: Make this call to the actual filter function
-    /// To filter out videos with characteristics the user
-    /// Doesn't want to see
+    /// To filter out videos with characteristics the user doesn't want to see
 
+    // The below commented out lines are just a basic example filter I tested
     // float rating = currVid->getOverallRating();
     // bool status = rating > 4.5;
     // return status;

@@ -1,8 +1,5 @@
 #include "Parser.hpp"
 
-/// TODO: Get rid of this include statement after tests are done
-#include <iostream>
-
 bool Parser::readFile(Graph& graph, std::ifstream& file, bool isRoot) {
     bool noErrors = true;
     std::string line;
@@ -23,8 +20,6 @@ bool Parser::readLine(Graph& graph, std::string line, bool isRoot) {
         if (inSS >> token) {
             if (token == "&") {
                 if (i != 4) {
-                    /// TODO: Delete debug print statement
-                    std::cout << "error in reading\n";
                     return false;
                 }
                 else { // Compound category type
@@ -40,15 +35,6 @@ bool Parser::readLine(Graph& graph, std::string line, bool isRoot) {
             }
         }
         else {
-            /// TODO: Delete debug print statement
-            // std::cout << "error in reading";
-            // if (i == 1) {
-            //     // Note that this is sometimes to be expected, as there are
-            //     // Lines with just ids and nothing after
-            //     // Mostly due to already having been visited in their level
-            //     std::cout << " (missing file data)";
-            // }
-            // std::cout << std::endl;
             return false;
         }
     }
@@ -71,8 +57,6 @@ bool Parser::readData(Graph& graph, std::string runName, std::string dirModifier
         }
     }
     else {
-        /// TODO: Delete debug print statement
-        std::cout << "invalid data location\n";
         return false;
     }
     int fileNum = 1;

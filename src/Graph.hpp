@@ -10,9 +10,7 @@ class Graph {
     std::unordered_map<std::string, Video*> idToVideo;
     int size = 0;
 
-    /// FIXME: store the object containing the info about the filter
-    /// FIXME: How do I get the info to know
-    /// what characteristics to filter out
+    /// FIXME: Determine the organization of and store the object containing the info about the filter
     /// TODO: create a function that takes in the filter detail object
 
     // ----------  FILTERING ---------- //
@@ -114,6 +112,6 @@ public:
      */
     std::vector<Video*> getNFilteredRootVideos(int n) const;
 
-    /// TODO: Delete function after debugging
+    /// TODO: Delete function after debugging. Please use only for debugging and not actual implementations
     std::vector<std::string> getRootVideoIDs() const;
 };
