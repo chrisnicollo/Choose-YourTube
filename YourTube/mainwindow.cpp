@@ -3,6 +3,7 @@
 #include <iostream>
 #include <QFile>
 #include <QTextStream>
+using namespace std;
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
@@ -14,11 +15,5 @@ MainWindow::MainWindow(QWidget *parent)
 MainWindow::~MainWindow()
 {
     delete ui;
-}
-
-
-void MainWindow::on_pushButton1_clicked()
-{
-    std::cout << "Yo this works" << std::endl;
 }
 

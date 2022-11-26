@@ -16,9 +16,9 @@ class MainWindow : public QMainWindow
         ~MainWindow();
 
     private slots:
-        void on_pushButton1_clicked();
 
-    private:
+
+private:
         Ui::MainWindow *ui;
 };
 #endif // MAINWINDOW_H
