@@ -1,5 +1,6 @@
 #ifndef SETTINGS_H
 #define SETTINGS_H
+#pragma once
 #include <string>
 using namespace std;
 

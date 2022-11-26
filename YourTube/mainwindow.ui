@@ -371,62 +371,61 @@ li.checked::marker { content: &quot;\2612&quot;; }
      <enum>Qt::Horizontal</enum>
     </property>
    </widget>
-   <widget class="QWidget" name="horizontalLayoutWidget_2">
+   <widget class="QCommandLinkButton" name="commandLinkButton_2">
     <property name="geometry">
      <rect>
-      <x>46</x>
+      <x>110</x>
       <y>520</y>
-      <width>751</width>
-      <height>51</height>
+      <width>251</width>
+      <height>49</height>
      </rect>
     </property>
-    <layout class="QHBoxLayout" name="horizontalLayout_2">
-     <item>
-      <widget class="QCommandLinkButton" name="commandLinkButton_2">
-       <property name="styleSheet">
-        <string notr="true">QCommandLinkButton {
-	border: black;
+    <property name="styleSheet">
+     <string notr="true">QCommandLinkButton {
+	alternate-background-color: rgb(255, 7, 7);
 	color: black;
 	padding-left: 10px;
 	padding-right: 10px;
 	font-size: 16px;
 }</string>
-       </property>
-       <property name="text">
-        <string>See Closely Related Videos</string>
-       </property>
-      </widget>
-     </item>
-     <item>
-      <widget class="QCommandLinkButton" name="commandLinkButton">
-       <property name="styleSheet">
-        <string notr="true">QCommandLinkButton {
-	border: 2px solid rgb(67, 67, 67);
-	color: black;
-	padding-left: 10px;
-	padding-right: 10px;
-	background-color: rgb(197, 217, 255);
-	font-size: 16px;
-}</string>
-       </property>
-       <property name="text">
-        <string>See Mix of Related and Unrelated Videos</string>
-       </property>
-      </widget>
-     </item>
-    </layout>
-   </widget>
-   <widget class="QPushButton" name="pushButton">
-    <property name="geometry">
-     <rect>
-      <x>560</x>
-      <y>420</y>
-      <width>83</width>
-      <height>29</height>
-     </rect>
     </property>
     <property name="text">
-     <string>PushButton</string>
+     <string>See Closely Related Videos</string>
+    </property>
+   </widget>
+   <widget class="QCommandLinkButton" name="commandLinkButton">
+    <property name="geometry">
+     <rect>
+      <x>420</x>
+      <y>520</y>
+      <width>361</width>
+      <height>49</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">QCommandLinkButton {
+	alternate-background-color: rgb(255, 7, 7);
+	color: black;
+	padding-left: 10px;
+	padding-right: 10px;
+	font-size: 16px;
+}</string>
+    </property>
+    <property name="text">
+     <string>See Mix of Related and Unrelated Videos</string>
+    </property>
+   </widget>
+   <widget class="Line" name="line_2">
+    <property name="geometry">
+     <rect>
+      <x>20</x>
+      <y>490</y>
+      <width>801</width>
+      <height>20</height>
+     </rect>
+    </property>
+    <property name="orientation">
+     <enum>Qt::Horizontal</enum>
     </property>
    </widget>
   </widget>
