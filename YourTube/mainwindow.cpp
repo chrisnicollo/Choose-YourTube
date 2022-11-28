@@ -19,12 +19,12 @@ MainWindow::~MainWindow()
 }
 
 
-void MainWindow::on_lineEdit_textEdited(const QString &arg1)
+void MainWindow::on_lineEdit_textEdited(const QString &arg1) // Min dislike percentage
 {
     string in = arg1.toLocal8Bit().constData();
     bool go = true;
     for(int i = 0; i < in.size(); i++) {
-        if(!isdigit(in[i]) && in.size() < 1 && in != "") {
+        if(!isdigit(in[i])) {
             go = false;
         }
     }
@@ -36,9 +36,42 @@ void MainWindow::on_lineEdit_textEdited(const QString &arg1)
     }
 }
 
+void MainWindow::on_lineEdit_2_textEdited(const QString &arg1) // Min view count
+{
+    string in = arg1.toLocal8Bit().constData();
+    bool go = true;
+    for(int i = 0; i < in.size(); i++) {
+        if(!isdigit(in[i])) {
+            go = false;
+        }
+    }
+    if(go) {
+        if(in.size() < 1)
+            currSettings.setMinViews(0);
+        else
+            currSettings.setMinViews(stoi(in));
+    }
+}
+
+void MainWindow::on_lineEdit_3_textEdited(const QString &arg1)
+{
+    string in = arg1.toLocal8Bit().constData();
+    bool go = true;
+    for(int i = 0; i < in.size(); i++) {
+        if(!isdigit(in[i]) && in[i] != ':') {
+            go = false;
+        }
+    }
+    if(go) {
+        currSettings.setMinDur(in);
+    }
+}
 
 void MainWindow::on_commandLinkButton_2_clicked()
 {
-    cout << currSettings.getMinRating() << endl;
+    cout << "Minimum Rating: " << currSettings.getMinRating() << endl;
+    cout << "Minimum View Count: " << currSettings.getMinViews() << endl;
+    cout << "Minimum Duration: " << currSettings.getMinDur() << endl;
+    cout << "Maximum Duration: " << currSettings.getMaxDur() << endl;
+    cout << "Category: " << currSettings.getFilterCategory() << endl;
 }
-

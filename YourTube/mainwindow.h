@@ -24,6 +24,10 @@ class MainWindow : public QMainWindow
 
         void on_commandLinkButton_2_clicked();
 
+        void on_lineEdit_2_textEdited(const QString &arg1);
+
+        void on_lineEdit_3_textEdited(const QString &arg1);
+
 private:
         Ui::MainWindow *ui;
 };
