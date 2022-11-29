@@ -429,6 +429,7 @@ li.checked::marker { content: &quot;\2612&quot;; }
     </property>
    </widget>
   </widget>
+  <widget class="QStatusBar" name="statusBar"/>
   <action name="actionWhat">
    <property name="text">
     <string>What</string>

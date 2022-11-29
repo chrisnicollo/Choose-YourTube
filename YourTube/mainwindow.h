@@ -28,6 +28,12 @@ class MainWindow : public QMainWindow
 
         void on_lineEdit_3_textEdited(const QString &arg1);
 
+        void on_lineEdit_4_textEdited(const QString &arg1);
+
+        void on_comboBox_currentTextChanged(const QString &arg1);
+
+        void on_commandLinkButton_clicked();
+
 private:
         Ui::MainWindow *ui;
 };
