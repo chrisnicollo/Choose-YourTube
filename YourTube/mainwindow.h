@@ -37,6 +37,8 @@ class MainWindow : public QMainWindow
 
         void on_listWidget_itemPressed(QListWidgetItem *item);
 
+        void on_pushButton_clicked();
+
 private:
         Ui::MainWindow *ui;
 };

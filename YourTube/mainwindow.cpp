@@ -11,6 +11,10 @@ MainWindow::MainWindow(Settings &s, QWidget *parent)
 {
     ui->setupUi(this);
     currSettings = s;
+    for(int i = 0; i < 10; i++) {
+        QString str = QString::fromStdString(to_string(rand()));
+        ui->listWidget->addItem(str);
+    }
 }
 
 MainWindow::~MainWindow()
@@ -110,5 +114,15 @@ void MainWindow::on_listWidget_itemPressed(QListWidgetItem *item)
     QString in = item->data(0).toString();
     string s = in.toLocal8Bit().constData();
     cout << s << endl;
+}
+
+
+void MainWindow::on_pushButton_clicked()
+{
+    ui->listWidget->clear();
+    for(int i = 0; i < 10; i++) {
+        QString str = QString::fromStdString(to_string(rand()));
+        ui->listWidget->addItem(str);
+    }
 }
 
