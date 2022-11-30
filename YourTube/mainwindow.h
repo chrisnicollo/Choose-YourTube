@@ -2,6 +2,7 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
+#include <QListWidgetItem>
 #include "settings.h"
 
 QT_BEGIN_NAMESPACE
@@ -33,6 +34,8 @@ class MainWindow : public QMainWindow
         void on_comboBox_currentTextChanged(const QString &arg1);
 
         void on_commandLinkButton_clicked();
+
+        void on_listWidget_itemPressed(QListWidgetItem *item);
 
 private:
         Ui::MainWindow *ui;

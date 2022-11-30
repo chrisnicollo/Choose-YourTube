@@ -428,6 +428,81 @@ li.checked::marker { content: &quot;\2612&quot;; }
      <enum>Qt::Horizontal</enum>
     </property>
    </widget>
+   <widget class="QListWidget" name="listWidget">
+    <property name="geometry">
+     <rect>
+      <x>440</x>
+      <y>160</y>
+      <width>371</width>
+      <height>281</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">QListWidget {
+	border: none;
+	color: black;
+	padding-left: 10px;
+	padding-right: 10px;
+	padding-bottom: 3px;
+	font-size: 20px;
+}
+
+QListView::item:selected {
+	background-color: rgb(110, 117, 255);
+	color: black;
+}</string>
+    </property>
+    <item>
+     <property name="text">
+      <string>New iPhone 5 - Marques Brownlee</string>
+     </property>
+    </item>
+    <item>
+     <property name="text">
+      <string>Our first video - SMOSH</string>
+     </property>
+    </item>
+    <item>
+     <property name="text">
+      <string>What's in store - FRED</string>
+     </property>
+    </item>
+    <item>
+     <property name="text">
+      <string>4</string>
+     </property>
+    </item>
+    <item>
+     <property name="text">
+      <string>5</string>
+     </property>
+    </item>
+    <item>
+     <property name="text">
+      <string>6</string>
+     </property>
+    </item>
+    <item>
+     <property name="text">
+      <string>7</string>
+     </property>
+    </item>
+    <item>
+     <property name="text">
+      <string>8</string>
+     </property>
+    </item>
+    <item>
+     <property name="text">
+      <string>9</string>
+     </property>
+    </item>
+    <item>
+     <property name="text">
+      <string>10</string>
+     </property>
+    </item>
+   </widget>
   </widget>
   <widget class="QStatusBar" name="statusBar"/>
   <action name="actionWhat">

@@ -105,3 +105,10 @@ void MainWindow::on_commandLinkButton_clicked()
     statusBar()->showMessage("Executed DFS", 2000);
 }
 
+void MainWindow::on_listWidget_itemPressed(QListWidgetItem *item)
+{
+    QString in = item->data(0).toString();
+    string s = in.toLocal8Bit().constData();
+    cout << s << endl;
+}
+
