@@ -53,6 +53,8 @@ public:
     float getSimilarityScore(Video* firstVid, Video* secondVid) const;
     /// TODO: Delete function after debugging. Please use only for debugging and not actual implementations
     std::vector<std::string> getRootVideoIDs() const;
+    /// TODO: Delete function after debugging. Please use only for debugging and not actual implementations
+    std::vector<Video*> getRootVideos() const;
 
     // ----------  SETTERS ---------- //
 

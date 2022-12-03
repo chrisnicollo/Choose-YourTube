@@ -276,6 +276,14 @@ std::vector<std::string> Graph::getRootVideoIDs() const {
     return rootVideoIDs;
 }
 
+std::vector<Video*> Graph::getRootVideos() const {
+    std::vector<Video*> result;
+    for (int i = 0; i < rootVideoIDs.size(); i++) {
+        result.push_back(idToVideo.at(rootVideoIDs.at(i)));
+    }
+    return result;
+}
+
 // ----------  SETTERS ---------- //
 
 /**
