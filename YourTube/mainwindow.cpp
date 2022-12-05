@@ -1,5 +1,6 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
+#include "resultswindow.h"
 #include <iostream>
 #include <QFile>
 #include <QTextStream>
@@ -100,6 +101,9 @@ void MainWindow::on_commandLinkButton_2_clicked()
 //    cout << "Category: " << currSettings.getFilterCategory() << endl;
     // Execute closely related BFS
     statusBar()->showMessage("Executed BFS", 2000);
+    results = new ResultsWindow(currSettings);
+    results->show();
+    close();
 }
 
 
@@ -107,13 +111,15 @@ void MainWindow::on_commandLinkButton_clicked()
 {
     // Execute mixed related DFS
     statusBar()->showMessage("Executed DFS", 2000);
+    results = new ResultsWindow(currSettings);
+    results->show();
+    close();
 }
 
 void MainWindow::on_listWidget_itemPressed(QListWidgetItem *item)
 {
     QString in = item->data(0).toString();
     string s = in.toLocal8Bit().constData();
-    cout << s << endl;
 }
 
 

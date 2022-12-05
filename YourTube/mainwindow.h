@@ -4,6 +4,7 @@
 #include <QMainWindow>
 #include <QListWidgetItem>
 #include "settings.h"
+#include "resultswindow.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
@@ -19,6 +20,7 @@ class MainWindow : public QMainWindow
 
     private:
         Settings currSettings;
+        ResultsWindow* results;
 
     private slots:
         void on_lineEdit_textEdited(const QString &arg1);
