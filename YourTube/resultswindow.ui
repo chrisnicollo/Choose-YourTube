@@ -20,7 +20,7 @@
    <widget class="QPushButton" name="pushButton">
     <property name="geometry">
      <rect>
-      <x>290</x>
+      <x>120</x>
       <y>520</y>
       <width>226</width>
       <height>41</height>
@@ -54,7 +54,7 @@ QPushButton:pressed {
     <property name="geometry">
      <rect>
       <x>240</x>
-      <y>40</y>
+      <y>30</y>
       <width>341</width>
       <height>51</height>
      </rect>
@@ -78,13 +78,89 @@ li.checked::marker { content: &quot;\2612&quot;; }
     <property name="geometry">
      <rect>
       <x>30</x>
-      <y>110</y>
+      <y>90</y>
       <width>731</width>
       <height>20</height>
      </rect>
     </property>
     <property name="orientation">
      <enum>Qt::Horizontal</enum>
+    </property>
+   </widget>
+   <widget class="QListWidget" name="listWidget">
+    <property name="geometry">
+     <rect>
+      <x>50</x>
+      <y>130</y>
+      <width>401</width>
+      <height>351</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">QListWidget {
+	border: none;
+	color: black;
+	padding-right: 5px;
+	font-size: 18px;
+}
+
+QListView::item:selected {
+	background-color: rgb(110, 117, 255);
+	color: black;
+}</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="pushButton_2">
+    <property name="geometry">
+     <rect>
+      <x>460</x>
+      <y>520</y>
+      <width>226</width>
+      <height>41</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">QPushButton {
+    background-color: rgb(135, 157, 255);
+	color: black;
+    border-style: outset;
+    border-width: 2px;
+    border-radius: 10px;
+    border-color: rgb(68, 68, 68);
+    font: bold 16px;
+    min-width: 10em;
+    padding: 6px;
+}
+QPushButton:hover {
+    background-color: rgb(115, 138, 235);
+}
+QPushButton:pressed {
+    background-color: rgb(89, 105, 168);
+    border-style: inset;
+}</string>
+    </property>
+    <property name="text">
+     <string>Next Page of Videos</string>
+    </property>
+   </widget>
+   <widget class="QTextBrowser" name="videoInfo">
+    <property name="geometry">
+     <rect>
+      <x>490</x>
+      <y>130</y>
+      <width>261</width>
+      <height>351</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">QTextBrowser {
+	border: none;
+	color: black;
+	padding-left: 10px;
+	padding-right: 10px;
+	padding-bottom: 3px;
+	font-size: 20px;
+}</string>
     </property>
    </widget>
   </widget>

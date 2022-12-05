@@ -2,6 +2,7 @@
 #define RESULTSWINDOW_H
 
 #include <QMainWindow>
+#include <QListWidgetItem>
 #include "Settings.h"
 
 namespace Ui {
@@ -18,6 +19,10 @@ public:
 
 private slots:
     void on_pushButton_clicked();
+
+    void on_listWidget_itemPressed(QListWidgetItem *item);
+
+    void on_pushButton_2_clicked();
 
 private:
     Ui::ResultsWindow *ui;
