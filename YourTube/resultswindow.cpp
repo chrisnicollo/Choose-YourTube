@@ -57,5 +57,6 @@ void ResultsWindow::on_pushButton_2_clicked()
         QString str = QString::fromStdString(to_string(rand()));
         ui->listWidget->addItem(str);
     }
+    currSettings.printSettings();
 }
 

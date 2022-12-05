@@ -94,13 +94,8 @@ void MainWindow::on_comboBox_currentTextChanged(const QString &arg1)
 
 void MainWindow::on_commandLinkButton_2_clicked()
 {
-//    cout << "Minimum Rating: " << currSettings.getMinRating() << endl;
-//    cout << "Minimum View Count: " << currSettings.getMinViews() << endl;
-//    cout << "Minimum Duration: " << currSettings.getMinDur() << endl;
-//    cout << "Maximum Duration: " << currSettings.getMaxDur() << endl;
-//    cout << "Category: " << currSettings.getFilterCategory() << endl;
     // Execute closely related BFS
-    statusBar()->showMessage("Executed BFS", 2000);
+    currSettings.setRelatedVids(true);
     results = new ResultsWindow(currSettings);
     results->show();
     close();
@@ -110,7 +105,7 @@ void MainWindow::on_commandLinkButton_2_clicked()
 void MainWindow::on_commandLinkButton_clicked()
 {
     // Execute mixed related DFS
-    statusBar()->showMessage("Executed DFS", 2000);
+    currSettings.setRelatedVids(false);
     results = new ResultsWindow(currSettings);
     results->show();
     close();
@@ -120,6 +115,7 @@ void MainWindow::on_listWidget_itemPressed(QListWidgetItem *item)
 {
     QString in = item->data(0).toString();
     string s = in.toLocal8Bit().constData();
+    currSettings.setStartingVid(s);
 }
 
 

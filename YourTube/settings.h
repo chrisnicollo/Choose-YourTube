@@ -15,6 +15,7 @@ private:
     bool relatedVids;
 public:
     Settings();
+    void printSettings();
     // Get Functions
     float getMinRating();
     int getMinViews();
@@ -22,7 +23,7 @@ public:
     string getMinDur();
     string getFilterCategory();
     string getStartingVid();
-    bool wantRelatedVids();
+    bool getIfRelated();
     // Set Functions
     void setMinRating(float input);
     void setMinViews(int input);
