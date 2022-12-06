@@ -6,13 +6,14 @@
 #include <QTextStream>
 using namespace std;
 
-MainWindow::MainWindow(Settings &s, vector<Video*> &startingVids, QWidget *parent)
+MainWindow::MainWindow(Settings &s, vector<Video*> &startingVids, Graph &graph, QWidget *parent)
     : QMainWindow(parent)
     , ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
     currSettings = s;
     startingVideos = startingVids;
+    gr = graph;
     int i = 0;
     while(i < startingVideos.size() && i < 10) {
         QVariant v;
@@ -107,7 +108,7 @@ void MainWindow::on_commandLinkButton_2_clicked()
     // Execute closely related BFS
     currSettings.setRelatedVids(true);
     // Command to execute BFS and pass object to ResultsWindow
-    results = new ResultsWindow(currSettings, startingVideos);
+    results = new ResultsWindow(currSettings, startingVideos, gr);
     results->show();
     close();
 }
@@ -118,7 +119,7 @@ void MainWindow::on_commandLinkButton_clicked()
     // Execute mixed related DFS
     currSettings.setRelatedVids(false);
     // Command to execute DFS and pass object to ResultsWindow
-    results = new ResultsWindow(currSettings, startingVideos);
+    results = new ResultsWindow(currSettings, startingVideos, gr);
     results->show();
     close();
 }

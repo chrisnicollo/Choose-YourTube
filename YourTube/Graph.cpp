@@ -276,6 +276,10 @@ std::vector<std::string> Graph::getRootVideoIDs() const {
     return rootVideoIDs;
 }
 
+Video* Graph::getVideoByID(std::string vidID) {
+    return idToVideo[vidID];
+}
+
 std::vector<Video*> Graph::getRootVideos() const {
     std::vector<Video*> result;
     for (int i = 0; i < rootVideoIDs.size(); i++) {

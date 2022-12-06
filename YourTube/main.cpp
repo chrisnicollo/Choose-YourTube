@@ -14,7 +14,7 @@ int main(int argc, char *argv[])
     p.readData(g, "0403");
     vector<Video*> startingVids = g.getNFilteredRootVideos(g.getSize());
     Settings settings;
-    MainWindow w(settings, startingVids);
+    MainWindow w(settings, startingVids, g);
     w.show();
     return a.exec();
 }

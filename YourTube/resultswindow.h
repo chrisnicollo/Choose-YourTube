@@ -4,7 +4,7 @@
 #include <QMainWindow>
 #include <QListWidgetItem>
 #include "Settings.h"
-#include "Video.hpp"
+#include "Graph.hpp"
 
 namespace Ui {
 class ResultsWindow;
@@ -15,7 +15,7 @@ class ResultsWindow : public QMainWindow
     Q_OBJECT
 
 public:
-    explicit ResultsWindow(Settings &settings, vector<Video*> &origVids, QWidget *parent = nullptr);
+    explicit ResultsWindow(Settings &settings, vector<Video*> &origVids, Graph &graph, QWidget *parent = nullptr);
     ~ResultsWindow();
 
 private slots:
@@ -29,6 +29,9 @@ private:
     Ui::ResultsWindow *ui;
     Settings currSettings;
     vector<Video*> origVideos;
+    vector<Video*> results;
+    Graph gr;
+    int index;
 };
 
 #endif // RESULTSWINDOW_H

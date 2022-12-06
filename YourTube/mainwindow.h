@@ -3,7 +3,7 @@
 
 #include <QMainWindow>
 #include <QListWidgetItem>
-#include "Video.hpp"
+#include "Graph.hpp"
 #include "settings.h"
 #include "resultswindow.h"
 
@@ -16,13 +16,14 @@ class MainWindow : public QMainWindow
     Q_OBJECT
 
     public:
-        MainWindow(Settings &settings, vector<Video*> &startingVids, QWidget *parent = nullptr);
+        MainWindow(Settings &settings, vector<Video*> &startingVids, Graph& g, QWidget *parent = nullptr);
         ~MainWindow();
 
     private:
         Settings currSettings;
         ResultsWindow* results;
         vector<Video*> startingVideos;
+        Graph gr;
         int index;
 
     private slots:
