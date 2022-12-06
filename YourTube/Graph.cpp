@@ -8,15 +8,23 @@
  * @param currVid Video* being checked
  * @return boolean that is true iff the Video passes the filter.
  */
-bool Graph::passesFilter(Video* currVid) const {
-    /// TODO: Make this call to the actual filter function
-    /// To filter out videos with characteristics the user doesn't want to see
-
-    // The below commented out lines are just a basic example filter I tested
-    // float rating = currVid->getOverallRating();
-    // bool status = rating > 4.5;
-    // return status;
-    return true;
+bool Graph::passesFilter(Video* currVid, Settings obj) const {
+    float minimumRate = obj.getMinRating();
+    int minimumViews = obj.getMinViews();
+    int maxColon = obj.getMaxDur().find(":");
+    int maxMin = stoi(obj.getMaxDur().substr(0, maxColon));
+    int maxSec = stoi(obj.getMaxDur().substr(maxColon + 1, obj.getMaxDur().length() - maxColon - 1));
+    int maxDuration = (maxMin * 60) + maxSec;
+    int minColon = obj.getMinDur().find(":");
+    int minMin = stoi(obj.getMinDur().substr(0, minColon));
+    int minSec = stoi(obj.getMinDur().substr(minColon + 1, obj.getMinDur().length() - minColon - 1));
+    int minDuration = (minMin * 60) + minSec;
+    string filterCat = obj.getFilterCategory();
+    if (currVid->getLength() >= minDuration && currVid->getLength() <= maxDuration && currVid->getOverallRating() >= minimumRate 
+        && currVid->getNumViews() >= minimumViews && currVid->getCategory() == filterCat) {
+        return true;
+    }
+    return false;
 }
 
 // ----------  MEMORY AND DATA MANAGEMENT HELPERS ---------- //
@@ -268,8 +276,30 @@ float Graph::getSimilarityScore(std::string firstVidID, std::string secondVidID)
  * @return float of the similarity score.
  */
 float Graph::getSimilarityScore(Video* firstVid, Video* secondVid) const {
-    /// TODO: Make this call to the actual scoring function
-    return 1;
+    float userUpload = 0.3; // Weightage points allocated
+    float categoryNum = 0.3; 
+    float ratingNum = 0.2; 
+    float ageVideo = 0.1; 
+    float length = 0.1; 
+    float total = 0.0;
+   
+    if (firstVid->getUploaderUsername() == secondVid->getUploaderUsername()) { // username
+        total += userUpload; 
+    }
+    if (firstVid->getCategory() == secondVid->getCategory()) { // category
+        total += categoryNum;
+    }
+    if (firstVid->getNumRatings() == secondVid->getNumRatings()) { // rating
+        total += ratingNum;
+    }
+    if (firstVid->getAge() == secondVid->getAge()) { // age
+        total += ageVideo;
+    }
+    if (firstVid->getLength() == secondVid->getLength()) { // Duration
+        total += length;
+    }
+  
+    return total * 100;
 }
 
 std::vector<std::string> Graph::getRootVideoIDs() const {

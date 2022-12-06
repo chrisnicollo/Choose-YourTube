@@ -146,9 +146,9 @@ QPushButton:pressed {
    <widget class="QTextBrowser" name="videoInfo">
     <property name="geometry">
      <rect>
-      <x>480</x>
+      <x>470</x>
       <y>130</y>
-      <width>281</width>
+      <width>301</width>
       <height>351</height>
      </rect>
     </property>

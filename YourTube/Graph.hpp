@@ -16,7 +16,7 @@ class Graph {
 
     // ----------  FILTERING ---------- //
 
-    bool passesFilter(Video* currVid) const;
+    bool passesFilter(Video* currVid, Settings obj) const;
 
     // ----------  MEMORY AND DATA MANAGEMENT HELPERS ---------- //
     void copyVals(const Graph& original);
