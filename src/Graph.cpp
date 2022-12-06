@@ -320,7 +320,7 @@ float Graph::getSimilarityScore(Video* firstVid, Video* secondVid) const {
     if (minDuration == minDuration1) { // maxDuration
         total += minDurVideo; 
     }
-    return total;
+    return total * 100;
 }
 
 std::vector<std::string> Graph::getRootVideoIDs() const {
