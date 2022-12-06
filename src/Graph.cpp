@@ -1,4 +1,5 @@
 #include "Graph.hpp"
+#include "settings.h"
 
 // ----------  FILTERING ---------- //
 
@@ -8,15 +9,23 @@
  * @param currVid Video* being checked
  * @return boolean that is true iff the Video passes the filter.
  */
-bool Graph::passesFilter(Video* currVid) const {
-    /// TODO: Make this call to the actual filter function
-    /// To filter out videos with characteristics the user doesn't want to see
-
-    // The below commented out lines are just a basic example filter I tested
-    // float rating = currVid->getOverallRating();
-    // bool status = rating > 4.5;
-    // return status;
-    return true;
+bool Graph::passesFilter(Video* currVid, Settings obj) const {
+    float minimumRate = obj.getMinRating();
+    int minimumViews = obj.getMinViews();
+    int maxColon = obj.getMaxDur().find(“:”);
+    int maxMin = stoi(obj.getMaxDur().substr(0, maxColon));
+    int maxSec = stoi(obj.getMaxDur().substr(maxColon + 1, obj.getMaxDur().length() - maxColon - 1));
+    int maxDuration = (maxMin * 60) + maxSec;
+    int minColon = obj.getMinDur().find(“:”);
+    int minMin = stoi(obj.getMinDur().substr(0, minColon));
+    int minSec = stoi(obj.getMinDur().substr(minColon + 1, obj.getMinDur().length() - minColon - 1));
+    int minDuration = (minMin * 60) + minSec;
+    string filterCat = obj.getFilterCategory();
+    if (currVideo->getLength() >= minDuration && currVideo->getLength() <= maxDuration && currVideo->getOverallRating() >= minimumRate 
+        && currVideo->getNumViews() >= minimumViews && currVideo->getCategory() == filterCat) {
+        return true;
+    }
+    return false;
 }
 
 // ----------  MEMORY AND DATA MANAGEMENT HELPERS ---------- //
