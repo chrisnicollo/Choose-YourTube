@@ -272,7 +272,7 @@ li.checked::marker { content: &quot;\2612&quot;; }
 }</string>
     </property>
     <property name="text">
-     <string>Min Dislike Percent</string>
+     <string>Min Star Rating</string>
     </property>
    </widget>
    <widget class="QComboBox" name="comboBox">
@@ -443,9 +443,9 @@ li.checked::marker { content: &quot;\2612&quot;; }
    <widget class="QListWidget" name="listWidget">
     <property name="geometry">
      <rect>
-      <x>430</x>
+      <x>410</x>
       <y>150</y>
-      <width>391</width>
+      <width>411</width>
       <height>281</height>
      </rect>
     </property>

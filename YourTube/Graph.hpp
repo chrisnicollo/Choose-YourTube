@@ -16,7 +16,7 @@ class Graph {
 
     // ----------  FILTERING ---------- //
 
-    bool passesFilter(Video* currVid) const;
+    bool passesFilter(Video* currVid, Settings obj) const;
 
     // ----------  MEMORY AND DATA MANAGEMENT HELPERS ---------- //
     void copyVals(const Graph& original);
@@ -53,6 +53,7 @@ public:
     std::vector<Video*> getNFilteredRootVideos(int n) const;
     float getSimilarityScore(std::string firstVidID, std::string secondVidID) const;
     float getSimilarityScore(Video* firstVid, Video* secondVid) const;
+    Video* getVideoByID(std::string vidID);
     /// TODO: Delete function after debugging. Please use only for debugging and not actual implementations
     std::vector<std::string> getRootVideoIDs() const;
     /// TODO: Delete function after debugging. Please use only for debugging and not actual implementations

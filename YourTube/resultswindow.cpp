@@ -2,22 +2,41 @@
 #include "ui_resultswindow.h"
 #include "mainwindow.h"
 #include "settings.h"
+#include "Graph.hpp"
 #include <iostream>
 #include <QFile>
 #include <QTextStream>
 using namespace std;
 
-ResultsWindow::ResultsWindow(Settings& settings, QWidget *parent) :
+ResultsWindow::ResultsWindow(Settings& settings, vector<Video*> &origVids, Graph& graph, QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::ResultsWindow)
 {
     ui->setupUi(this);
     currSettings = settings;
-    ui->listWidget->clear();
-    for(int i = 0; i < 10; i++) {
-        QString str = QString::fromStdString(to_string(rand()));
-        ui->listWidget->addItem(str);
+    origVideos = origVids;
+    gr = graph;
+    pair<vector<Video*>, double> resultsPair;
+    if(currSettings.getIfRelated()) { // If they chose related, execute BFS
+        resultsPair = gr.traverseBreadthFirstN(currSettings.getStartingVid(), 100);
+    } else { // If they do not, execute DFS
+        resultsPair = gr.traversePostorderDepthFirstN(currSettings.getStartingVid(), 100);
     }
+    results = resultsPair.first;
+    cout << results[0]->getID() << endl;
+    int i = 0;
+    while(i < results.size() && i < 10) {
+        QVariant v;
+        v.setValue(results[i]->getID());
+        string rating = to_string(results[i]->getOverallRating());
+        string str = results[i]->getUploaderUsername() + " - " + results[i]->getCategory() + " - ☆" + rating.substr(0, 3);
+        QString qstr = QString::fromStdString(str);
+        auto *item = new QListWidgetItem(qstr);
+        item->setData(1, v);
+        ui->listWidget->addItem(item);
+        i++;
+    }
+    index = i;
 }
 
 ResultsWindow::~ResultsWindow()
@@ -27,24 +46,24 @@ ResultsWindow::~ResultsWindow()
 
 void ResultsWindow::on_pushButton_clicked()
 {
-    MainWindow* backWin = new MainWindow(currSettings, this);
+    MainWindow* backWin = new MainWindow(currSettings, origVideos, gr, this);
     backWin->show();
     hide();
 }
 
 
 void ResultsWindow::on_listWidget_itemPressed(QListWidgetItem *item) {
-    QString in = item->data(0).toString();
-    string s = in.toLocal8Bit().constData();
+    QVariant input = item->data(1);
+    string id = input.value<string>();
+    Video* selectedVid = gr.getVideoByID(id);
     ui->videoInfo->clear();
     vector<QString> info;
-    info.push_back("Testing: " + in);
-    info.push_back("Video Title");
-    info.push_back("Video Uploader");
-    info.push_back("Video Category");
-    info.push_back("Video Length");
-    info.push_back("Video Views");
-    info.push_back("Video Rating");
+    info.push_back(QString::fromStdString("Uploader: " + selectedVid->getUploaderUsername()));
+    info.push_back(QString::fromStdString("Category: " + selectedVid->getCategory()));
+    info.push_back(QString::fromStdString("Duration: " + to_string(selectedVid->getLength())));
+    info.push_back(QString::fromStdString("Views: " + to_string(selectedVid->getNumViews())));
+    string rating = to_string(selectedVid->getOverallRating());
+    info.push_back(QString::fromStdString("Rating: ☆" + rating.substr(0, 3)));
     for(QString i : info)
         ui->videoInfo->append(i);
 }
@@ -53,10 +72,20 @@ void ResultsWindow::on_listWidget_itemPressed(QListWidgetItem *item) {
 void ResultsWindow::on_pushButton_2_clicked()
 {
     ui->listWidget->clear();
-    for(int i = 0; i < 10; i++) {
-        QString str = QString::fromStdString(to_string(rand()));
-        ui->listWidget->addItem(str);
+    int maxOnScreen = 0;
+    while(index < results.size() && maxOnScreen < 10) {
+        QVariant v;
+        v.setValue(results[index]->getID());
+        string rating = to_string(results[index]->getOverallRating());
+        string str = results[index]->getUploaderUsername() + " - " + results[index]->getCategory() + " - ☆" + rating.substr(0, 3);
+        QString qstr = QString::fromStdString(str);
+        auto *item = new QListWidgetItem(qstr);
+        item->setData(1, v);
+        ui->listWidget->addItem(item);
+        maxOnScreen++;
+        index++;
     }
-    currSettings.printSettings();
+    if(index >= results.size())
+        index = 0;
 }
 

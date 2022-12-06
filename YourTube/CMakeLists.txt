@@ -22,6 +22,12 @@ set(PROJECT_SOURCES
         resultswindow.h
         resultswindow.cpp
         resultswindow.ui
+        Graph.hpp
+        Graph.cpp
+        Parser.hpp
+        Parser.cpp
+        Video.hpp
+        Video.cpp
 )
 
 if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)

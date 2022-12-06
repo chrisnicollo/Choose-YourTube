@@ -12,17 +12,17 @@
 bool Graph::passesFilter(Video* currVid, Settings obj) const {
     float minimumRate = obj.getMinRating();
     int minimumViews = obj.getMinViews();
-    int maxColon = obj.getMaxDur().find(“:”);
+    int maxColon = obj.getMaxDur().find(":");
     int maxMin = stoi(obj.getMaxDur().substr(0, maxColon));
     int maxSec = stoi(obj.getMaxDur().substr(maxColon + 1, obj.getMaxDur().length() - maxColon - 1));
     int maxDuration = (maxMin * 60) + maxSec;
-    int minColon = obj.getMinDur().find(“:”);
+    int minColon = obj.getMinDur().find(":");
     int minMin = stoi(obj.getMinDur().substr(0, minColon));
     int minSec = stoi(obj.getMinDur().substr(minColon + 1, obj.getMinDur().length() - minColon - 1));
     int minDuration = (minMin * 60) + minSec;
     string filterCat = obj.getFilterCategory();
-    if (currVideo->getLength() >= minDuration && currVideo->getLength() <= maxDuration && currVideo->getOverallRating() >= minimumRate 
-        && currVideo->getNumViews() >= minimumViews && currVideo->getCategory() == filterCat) {
+    if (currVid->getLength() >= minDuration && currVid->getLength() <= maxDuration && currVid->getOverallRating() >= minimumRate 
+        && currVid->getNumViews() >= minimumViews && currVid->getCategory() == filterCat) {
         return true;
     }
     return false;
@@ -282,26 +282,7 @@ float Graph::getSimilarityScore(Video* firstVid, Video* secondVid) const {
     float ratingNum = 0.2; 
     float ageVideo = 0.1; 
     float length = 0.1; 
-    float total = 0.0; 
-   
-    //first Video Duration
-    int maxColon = firstVid.getMaxDur().find(“:”);
-    int maxMin = stoi(firstVid.getMaxDur().substr(0, maxColon));
-    int maxSec = stoi(firstVid.getMaxDur().substr(maxColon + 1, firstVid.getMaxDur().length() - maxColon - 1));
-    int maxDuration = (maxMin * 60) + maxSec;
-    int minColon = firstVid.getMinDur().find(“:”);
-    int minMin = stoi(firstVid.getMinDur().substr(0, minColon));
-    int minSec = stoi(firstVid.getMinDur().substr(minColon + 1, firstVid.getMinDur().length() - minColon - 1));
-    int minDuration = (minMin * 60) + minSec;
-    //second Video Duration
-    int maxColon1 = secondVid.getMaxDur().find(“:”);
-    int maxMin1 = stoi(secondVid.getMaxDur().substr(0, maxColon1));
-    int maxSec1 = stoi(secondVid.getMaxDur().substr(maxColon1 + 1, secondVid.getMaxDur().length() - maxColon1 - 1));
-    int maxDuration1 = (maxMin1 * 60) + maxSec1;
-    int minColon1 = secondVid.getMinDur().find(“:”);
-    int minMin1 = stoi(secondVid.getMinDur().substr(0, minColon1));
-    int minSec1 = stoi(secondVid.getMinDur().substr(minColon1 + 1, secondVid.getMinDur().length() - minColon1 - 1));
-    int minDuration1 = (minMin1 * 60) + minSec1;
+    float total = 0.0;
    
     if (firstVid->getUploaderUsername() == secondVid->getUploaderUsername()) { // username
         total += userUpload; 
@@ -324,6 +305,10 @@ float Graph::getSimilarityScore(Video* firstVid, Video* secondVid) const {
 
 std::vector<std::string> Graph::getRootVideoIDs() const {
     return rootVideoIDs;
+}
+
+Video* Graph::getVideoByID(std::string vidID) {
+    return idToVideo[vidID];
 }
 
 std::vector<Video*> Graph::getRootVideos() const {
