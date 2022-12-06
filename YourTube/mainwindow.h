@@ -3,6 +3,7 @@
 
 #include <QMainWindow>
 #include <QListWidgetItem>
+#include "Video.hpp"
 #include "settings.h"
 #include "resultswindow.h"
 
@@ -15,12 +16,14 @@ class MainWindow : public QMainWindow
     Q_OBJECT
 
     public:
-        MainWindow(Settings &settings, QWidget *parent = nullptr);
+        MainWindow(Settings &settings, vector<Video*> &startingVids, QWidget *parent = nullptr);
         ~MainWindow();
 
     private:
         Settings currSettings;
         ResultsWindow* results;
+        vector<Video*> startingVideos;
+        int index;
 
     private slots:
         void on_lineEdit_textEdited(const QString &arg1);

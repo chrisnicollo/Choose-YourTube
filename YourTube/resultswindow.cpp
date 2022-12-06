@@ -2,22 +2,38 @@
 #include "ui_resultswindow.h"
 #include "mainwindow.h"
 #include "settings.h"
+#include "Graph.hpp"
 #include <iostream>
 #include <QFile>
 #include <QTextStream>
 using namespace std;
 
-ResultsWindow::ResultsWindow(Settings& settings, QWidget *parent) :
+ResultsWindow::ResultsWindow(Settings& settings, vector<Video*> &origVids, QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::ResultsWindow)
 {
     ui->setupUi(this);
     currSettings = settings;
+    origVideos = origVids;
     ui->listWidget->clear();
     for(int i = 0; i < 10; i++) {
         QString str = QString::fromStdString(to_string(rand()));
         ui->listWidget->addItem(str);
     }
+    /*Graph g;
+    pair<vector<Video*>, double> result;
+    if(currSettings.getIfRelated()) { // If they chose related, execute BFS
+        result = g.traverseBreadthFirstN("", 21);
+    }
+    int i = 0;
+    while(i < startingVideos.size() && i < 10) {
+        string rating = to_string(startingVideos[i]->getOverallRating());
+        string str = startingVideos[i]->getUploaderUsername() + " - " + startingVideos[i]->getCategory() + " - ☆" + rating.substr(0, 3);
+        QString qstr = QString::fromStdString(str);
+        ui->listWidget->addItem(qstr);
+        i++;
+    }
+    index = i;*/
 }
 
 ResultsWindow::~ResultsWindow()
@@ -27,7 +43,7 @@ ResultsWindow::~ResultsWindow()
 
 void ResultsWindow::on_pushButton_clicked()
 {
-    MainWindow* backWin = new MainWindow(currSettings, this);
+    MainWindow* backWin = new MainWindow(currSettings, origVideos, this);
     backWin->show();
     hide();
 }
