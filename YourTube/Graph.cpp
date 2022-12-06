@@ -1,4 +1,5 @@
 #include "Graph.hpp"
+#include "settings.h"
 
 // ----------  FILTERING ---------- //
 
