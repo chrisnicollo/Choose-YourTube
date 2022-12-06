@@ -277,7 +277,7 @@ float Graph::getSimilarityScore(std::string firstVidID, std::string secondVidID)
  * @return float of the similarity score.
  */
 float Graph::getSimilarityScore(Video* firstVid, Video* secondVid) const {
-    float userUpload = 0.3; 
+    float userUpload = 0.3; // Weightage points allocated
     float categoryNum = 0.3; 
     float ratingNum = 0.2; 
     float ageVideo = 0.1; 
@@ -302,22 +302,22 @@ float Graph::getSimilarityScore(Video* firstVid, Video* secondVid) const {
     int minMin1 = stoi(secondVid.getMinDur().substr(0, minColon1));
     int minSec1 = stoi(secondVid.getMinDur().substr(minColon1 + 1, secondVid.getMinDur().length() - minColon1 - 1));
     int minDuration1 = (minMin1 * 60) + minSec1;
-    if (firstVid->getUploaderUsername() == secondVid->getUploaderUsername()) {
+    if (firstVid->getUploaderUsername() == secondVid->getUploaderUsername()) { // username
         total += userUpload; 
     }
-    if (firstVid->getCategory() == secondVid->getCategory()) {
+    if (firstVid->getCategory() == secondVid->getCategory()) { // category
         total += categoryNum;
     }
-    if (firstVid->getNumRatings() == secondVid->getNumRatings()) {
+    if (firstVid->getNumRatings() == secondVid->getNumRatings()) { // rating
         total += ratingNum;
     }
-    if (firstVid->getAge() == secondVid->getAge()) {
+    if (firstVid->getAge() == secondVid->getAge()) { // age
         total += ageVideo;
     }
-    if (maxDuration == maxDuration1) {
+    if (maxDuration == maxDuration1) { // minDuration
         total += maxDurVideo;
     }
-    if (minDuration == minDuration1) {
+    if (minDuration == minDuration1) { // maxDuration
         total += minDurVideo; 
     }
     return total;
