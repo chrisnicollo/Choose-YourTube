@@ -277,8 +277,8 @@ float Graph::getSimilarityScore(std::string firstVidID, std::string secondVidID)
  * @return float of the similarity score.
  */
 float Graph::getSimilarityScore(Video* firstVid, Video* secondVid) const {
-    /// TODO: Make this call to the actual scoring function
-    return 1;
+    
+    return 20;
 }
 
 std::vector<std::string> Graph::getRootVideoIDs() const {

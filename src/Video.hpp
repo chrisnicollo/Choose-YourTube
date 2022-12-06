@@ -25,8 +25,8 @@ public:
     std::string getCategory() const;
     int getLength() const;
     int getNumViews() const;
-    float getOverallRating() const;
-    int getNumRatings() const;
+    float getOverallRating() const; // total number of ratings
+    int getNumRatings() const; // actual rating
     int getNumComments() const;
     std::vector<std::string> getRelatedIDs() const;
     std::string getURL() const;
