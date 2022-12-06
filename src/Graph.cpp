@@ -277,8 +277,26 @@ float Graph::getSimilarityScore(std::string firstVidID, std::string secondVidID)
  * @return float of the similarity score.
  */
 float Graph::getSimilarityScore(Video* firstVid, Video* secondVid) const {
-    
-    return 20;
+    float userUpload = 0.3; 
+    float categoryNum = 0.3; 
+    float ratingNum = 0.2; 
+    float ageVideo = 0.1; 
+    float minDurVideo = 0.05; 
+    float maxDurVideo = 0.05; 
+    float total = 0.0; 
+    if (firstVid->getUploaderUsername() == secondVid->getUploaderUsername()) {
+        total += userUpload; 
+    }
+    if (firstVid->getCategory() == secondVid->getCategory()) {
+        total += categoryNum;
+    }
+    if (firstVid->getNumRatings() == secondVid->getNumRatings()) {
+        total += ratingNum;
+    }
+    if (firstVid->getAge() == secondVid->getAge()) {
+        total += ageVideo;
+    }
+    return total;
 }
 
 std::vector<std::string> Graph::getRootVideoIDs() const {
