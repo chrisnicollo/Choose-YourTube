@@ -284,6 +284,24 @@ float Graph::getSimilarityScore(Video* firstVid, Video* secondVid) const {
     float minDurVideo = 0.05; 
     float maxDurVideo = 0.05; 
     float total = 0.0; 
+    //first Video Duration
+    int maxColon = firstVid.getMaxDur().find(“:”);
+    int maxMin = stoi(firstVid.getMaxDur().substr(0, maxColon));
+    int maxSec = stoi(firstVid.getMaxDur().substr(maxColon + 1, firstVid.getMaxDur().length() - maxColon - 1));
+    int maxDuration = (maxMin * 60) + maxSec;
+    int minColon = firstVid.getMinDur().find(“:”);
+    int minMin = stoi(firstVid.getMinDur().substr(0, minColon));
+    int minSec = stoi(firstVid.getMinDur().substr(minColon + 1, firstVid.getMinDur().length() - minColon - 1));
+    int minDuration = (minMin * 60) + minSec;
+    //second Video Duration
+    int maxColon1 = secondVid.getMaxDur().find(“:”);
+    int maxMin1 = stoi(secondVid.getMaxDur().substr(0, maxColon1));
+    int maxSec1 = stoi(secondVid.getMaxDur().substr(maxColon1 + 1, secondVid.getMaxDur().length() - maxColon1 - 1));
+    int maxDuration1 = (maxMin1 * 60) + maxSec1;
+    int minColon1 = secondVid.getMinDur().find(“:”);
+    int minMin1 = stoi(secondVid.getMinDur().substr(0, minColon1));
+    int minSec1 = stoi(secondVid.getMinDur().substr(minColon1 + 1, secondVid.getMinDur().length() - minColon1 - 1));
+    int minDuration1 = (minMin1 * 60) + minSec1;
     if (firstVid->getUploaderUsername() == secondVid->getUploaderUsername()) {
         total += userUpload; 
     }
