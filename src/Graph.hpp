@@ -1,5 +1,6 @@
+#pragma once
 #include "Video.hpp"
-#include "settings.h"
+#include "../YourTube/settings.h"
 #include <unordered_map>
 #include <unordered_set>
 #include <queue>
@@ -11,6 +12,7 @@ class Graph {
     std::unordered_map<std::string, Video*> idToVideo;
     Settings filterInfo;
     int size = 0;
+    int testing;
 
     // ----------  FILTERING ---------- //
 

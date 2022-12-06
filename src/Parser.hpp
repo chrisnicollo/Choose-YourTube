@@ -1,3 +1,4 @@
+#pragma once
 #include "Graph.hpp"
 #include <fstream>
 #include <sstream>

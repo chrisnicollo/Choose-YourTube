@@ -96,6 +96,7 @@ void MainWindow::on_commandLinkButton_2_clicked()
 {
     // Execute closely related BFS
     currSettings.setRelatedVids(true);
+    // Command to execute BFS and pass object to ResultsWindow
     results = new ResultsWindow(currSettings);
     results->show();
     close();
@@ -106,6 +107,7 @@ void MainWindow::on_commandLinkButton_clicked()
 {
     // Execute mixed related DFS
     currSettings.setRelatedVids(false);
+    // Command to execute DFS and pass object to ResultsWindow
     results = new ResultsWindow(currSettings);
     results->show();
     close();
