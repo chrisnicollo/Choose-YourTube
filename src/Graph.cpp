@@ -314,6 +314,12 @@ float Graph::getSimilarityScore(Video* firstVid, Video* secondVid) const {
     if (firstVid->getAge() == secondVid->getAge()) {
         total += ageVideo;
     }
+    if (maxDuration == maxDuration1) {
+        total += maxDurVideo;
+    }
+    if (minDuration == minDuration1) {
+        total += minDurVideo; 
+    }
     return total;
 }
 
