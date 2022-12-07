@@ -6,7 +6,7 @@ using namespace std;
 Settings::Settings() {
     minRating = 0;
     minViews = 0;
-    maxDur = "99:00";
+    maxDur = "59:00";
     minDur = "00:00";
     filterCategory = "Not Specified";
     startingVid = "Not Specified";

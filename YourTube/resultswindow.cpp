@@ -19,9 +19,9 @@ ResultsWindow::ResultsWindow(Settings& settings, vector<Video*> &origVids, Graph
     gr.setFilterInfo(currSettings);
     pair<vector<Video*>, double> resultsPair;
     if(currSettings.getIfRelated()) { // If they chose related, execute BFS
-        resultsPair = gr.traverseBreadthFirstN(currSettings.getStartingVid(), 500);
+        resultsPair = gr.traverseBreadthFirstN(currSettings.getStartingVid(), 2000);
     } else { // If they do not, execute DFS
-        resultsPair = gr.traversePostorderDepthFirstN(currSettings.getStartingVid(), 500);
+        resultsPair = gr.traversePostorderDepthFirstN(currSettings.getStartingVid(), 2000);
     }
     results = resultsPair.first;
     int i = 0;
