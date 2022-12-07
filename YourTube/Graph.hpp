@@ -54,9 +54,7 @@ public:
     float getSimilarityScore(std::string firstVidID, std::string secondVidID);
     float getSimilarityScore(Video* firstVid, Video* secondVid);
     Video* getVideoByID(std::string vidID);
-    /// TODO: Delete function after debugging. Please use only for debugging and not actual implementations
     std::vector<std::string> getRootVideoIDs();
-    /// TODO: Delete function after debugging. Please use only for debugging and not actual implementations
     std::vector<Video*> getRootVideos();
 
     // ----------  SETTERS ---------- //
