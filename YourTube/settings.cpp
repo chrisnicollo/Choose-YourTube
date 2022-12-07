@@ -4,11 +4,11 @@ using namespace std;
 
 // Constructor
 Settings::Settings() {
-    minRating = 0.0;
+    minRating = 0;
     minViews = 0;
-    maxDur = "";
+    maxDur = "99:00";
     minDur = "00:00";
-    filterCategory = "";
+    filterCategory = "Not Specified";
     startingVid = "Not Specified";
     relatedVids = false;
 }

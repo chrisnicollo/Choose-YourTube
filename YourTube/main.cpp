@@ -12,7 +12,7 @@ int main(int argc, char *argv[])
     Graph g;
     Parser p;
     p.readData(g, "0403");
-    vector<Video*> startingVids = g.getNFilteredRootVideos(g.getSize());
+    vector<Video*> startingVids = g.getRootVideos();
     Settings settings;
     MainWindow w(settings, startingVids, g);
     w.show();

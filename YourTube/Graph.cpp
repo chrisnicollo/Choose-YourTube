@@ -1,5 +1,6 @@
 #include "Graph.hpp"
 #include "settings.h"
+#include <iostream>
 
 // ----------  FILTERING ---------- //
 
@@ -9,20 +10,20 @@
  * @param currVid Video* being checked
  * @return boolean that is true iff the Video passes the filter.
  */
-bool Graph::passesFilter(Video* currVid, Settings obj) const {
-    float minimumRate = obj.getMinRating();
-    int minimumViews = obj.getMinViews();
-    int maxColon = obj.getMaxDur().find(":");
-    int maxMin = stoi(obj.getMaxDur().substr(0, maxColon));
-    int maxSec = stoi(obj.getMaxDur().substr(maxColon + 1, obj.getMaxDur().length() - maxColon - 1));
+bool Graph::passesFilter(Video* currVid) {
+    float minimumRate = filterInfo.getMinRating();
+    int minimumViews = filterInfo.getMinViews();
+    int maxColon = filterInfo.getMaxDur().find(":");
+    int maxMin = stoi(filterInfo.getMaxDur().substr(0, maxColon));
+    int maxSec = stoi(filterInfo.getMaxDur().substr(maxColon + 1, filterInfo.getMaxDur().length() - maxColon - 1));
     int maxDuration = (maxMin * 60) + maxSec;
-    int minColon = obj.getMinDur().find(":");
-    int minMin = stoi(obj.getMinDur().substr(0, minColon));
-    int minSec = stoi(obj.getMinDur().substr(minColon + 1, obj.getMinDur().length() - minColon - 1));
+    int minColon = filterInfo.getMinDur().find(":");
+    int minMin = stoi(filterInfo.getMinDur().substr(0, minColon));
+    int minSec = stoi(filterInfo.getMinDur().substr(minColon + 1, filterInfo.getMinDur().length() - minColon - 1));
     int minDuration = (minMin * 60) + minSec;
-    string filterCat = obj.getFilterCategory();
+    string filterCat = filterInfo.getFilterCategory();
     if (currVid->getLength() >= minDuration && currVid->getLength() <= maxDuration && currVid->getOverallRating() >= minimumRate 
-        && currVid->getNumViews() >= minimumViews && currVid->getCategory() == filterCat) {
+        && currVid->getNumViews() >= minimumViews && (currVid->getCategory() == filterCat || filterCat == "Not Specified")) {
         return true;
     }
     return false;
@@ -60,7 +61,7 @@ void Graph::deleteVals() {
  * @param videoID string vector of the video's ID.
  * @return boolean that is true iff the video with that ID should be visited.
  */
-bool Graph::addToTraversal(std::unordered_set<std::string>& visited, std::string videoID) const {
+bool Graph::addToTraversal(std::unordered_set<std::string>& visited, std::string videoID) {
     if (visited.find(videoID) == visited.end()) {
         visited.insert(videoID);
         auto currVidIter = idToVideo.find(videoID);
@@ -72,7 +73,7 @@ bool Graph::addToTraversal(std::unordered_set<std::string>& visited, std::string
 }
 
 void Graph::helperTraversePostorderDepthFirstN(std::string currID,
-std::vector<Video*>& result, std::unordered_set<std::string>& visited, int n) const {
+std::vector<Video*>& result, std::unordered_set<std::string>& visited, int n) {
     if (result.size() < n) {
         auto currVidIter = idToVideo.find(currID);
         Video* currVid = currVidIter->second;
@@ -138,7 +139,7 @@ std::vector<std::string> relatedIDs, bool isRoot) {
  * @param n int number of videos to return.
  * @return std::pair<std::vector<Video*>, double> pair of a vector of Video* and a time (in seconds).
  */
-std::pair<std::vector<Video*>, double> Graph::traverseBreadthFirstN(std::string startID, int n) const {
+std::pair<std::vector<Video*>, double> Graph::traverseBreadthFirstN(std::string startID, int n) {
     auto startTime = std::chrono::steady_clock::now();
 
     std::vector<Video*> result;
@@ -188,7 +189,7 @@ std::pair<std::vector<Video*>, double> Graph::traverseBreadthFirstN(std::string 
  * @param n int number of videos to return.
  * @return std::pair<std::vector<Video*>, double> pair of a vector of Video* and a time (in seconds).
  */
-std::pair<std::vector<Video*>, double> Graph::traversePostorderDepthFirstN(std::string startID, int n) const {
+std::pair<std::vector<Video*>, double> Graph::traversePostorderDepthFirstN(std::string startID, int n) {
     auto startTime = std::chrono::steady_clock::now();
     std::vector<Video*> result;
     std::unordered_set<std::string> visited;
@@ -219,7 +220,7 @@ std::pair<std::vector<Video*>, double> Graph::traversePostorderDepthFirstN(std::
  * 
  * @return int number of Videos.
  */
-int Graph::getSize() const {
+int Graph::getSize() {
     return size;
 }
 
@@ -228,7 +229,7 @@ int Graph::getSize() const {
  * 
  * @return int number of root Videos.
  */
-int Graph::getNumRootVideos() const {
+int Graph::getNumRootVideos() {
     return rootVideoIDs.size();
 }
 
@@ -238,7 +239,7 @@ int Graph::getNumRootVideos() const {
  * @param n int number of videos to return.
  * @return std::vector<Video*> of filtered videos.
  */
-std::vector<Video*> Graph::getNFilteredRootVideos(int n) const {
+std::vector<Video*> Graph::getNFilteredRootVideos(int n) {
     std::vector<Video*> result;
     int ind = 0;
     while (ind < rootVideoIDs.size() && result.size() < n) {
@@ -258,7 +259,7 @@ std::vector<Video*> Graph::getNFilteredRootVideos(int n) const {
  * @param secondVidID string ID of the other Video.
  * @return float of the similarity score.
  */
-float Graph::getSimilarityScore(std::string firstVidID, std::string secondVidID) const {
+float Graph::getSimilarityScore(std::string firstVidID, std::string secondVidID) {
     auto firstVidIter = idToVideo.find(firstVidID);
     auto secondVidIter = idToVideo.find(secondVidID);
     if (firstVidIter != idToVideo.end() && secondVidIter != idToVideo.end()) {
@@ -276,7 +277,7 @@ float Graph::getSimilarityScore(std::string firstVidID, std::string secondVidID)
  * @param secondVid pointer to the other Video.
  * @return float of the similarity score.
  */
-float Graph::getSimilarityScore(Video* firstVid, Video* secondVid) const {
+float Graph::getSimilarityScore(Video* firstVid, Video* secondVid) {
     float userUpload = 0.3; // Weightage points allocated
     float categoryNum = 0.3; 
     float ratingNum = 0.2; 
@@ -303,7 +304,7 @@ float Graph::getSimilarityScore(Video* firstVid, Video* secondVid) const {
     return total * 100;
 }
 
-std::vector<std::string> Graph::getRootVideoIDs() const {
+std::vector<std::string> Graph::getRootVideoIDs() {
     return rootVideoIDs;
 }
 
@@ -311,7 +312,7 @@ Video* Graph::getVideoByID(std::string vidID) {
     return idToVideo[vidID];
 }
 
-std::vector<Video*> Graph::getRootVideos() const {
+std::vector<Video*> Graph::getRootVideos() {
     std::vector<Video*> result;
     for (int i = 0; i < rootVideoIDs.size(); i++) {
         result.push_back(idToVideo.at(rootVideoIDs.at(i)));
@@ -328,6 +329,6 @@ std::vector<Video*> Graph::getRootVideos() const {
  * @param filterInfo Settings object that contains filter data.
  * @return void.
  */
-void Graph::setFilterInfo(Settings filterInfo) {
+void Graph::setFilterInfo(Settings &filterInfo) {
     this->filterInfo = filterInfo;
 }

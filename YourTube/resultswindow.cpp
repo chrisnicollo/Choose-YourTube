@@ -16,14 +16,14 @@ ResultsWindow::ResultsWindow(Settings& settings, vector<Video*> &origVids, Graph
     currSettings = settings;
     origVideos = origVids;
     gr = graph;
+    gr.setFilterInfo(currSettings);
     pair<vector<Video*>, double> resultsPair;
     if(currSettings.getIfRelated()) { // If they chose related, execute BFS
-        resultsPair = gr.traverseBreadthFirstN(currSettings.getStartingVid(), 100);
+        resultsPair = gr.traverseBreadthFirstN(currSettings.getStartingVid(), 500);
     } else { // If they do not, execute DFS
-        resultsPair = gr.traversePostorderDepthFirstN(currSettings.getStartingVid(), 100);
+        resultsPair = gr.traversePostorderDepthFirstN(currSettings.getStartingVid(), 500);
     }
     results = resultsPair.first;
-    cout << results[0]->getID() << endl;
     int i = 0;
     while(i < results.size() && i < 10) {
         QVariant v;

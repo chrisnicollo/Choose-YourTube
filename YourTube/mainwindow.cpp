@@ -107,6 +107,7 @@ void MainWindow::on_commandLinkButton_2_clicked()
 {
     // Execute closely related BFS
     currSettings.setRelatedVids(true);
+    gr.setFilterInfo(currSettings);
     // Command to execute BFS and pass object to ResultsWindow
     results = new ResultsWindow(currSettings, startingVideos, gr);
     results->show();
@@ -118,6 +119,7 @@ void MainWindow::on_commandLinkButton_clicked()
 {
     // Execute mixed related DFS
     currSettings.setRelatedVids(false);
+    gr.setFilterInfo(currSettings);
     // Command to execute DFS and pass object to ResultsWindow
     results = new ResultsWindow(currSettings, startingVideos, gr);
     results->show();
@@ -129,7 +131,6 @@ void MainWindow::on_listWidget_itemPressed(QListWidgetItem *item)
     QVariant input = item->data(1);
     string id = input.value<string>();
     currSettings.setStartingVid(id);
-    cout << currSettings.getStartingVid() << endl;
 }
 
 void MainWindow::on_pushButton_clicked()

@@ -16,7 +16,7 @@ class Graph {
 
     // ----------  FILTERING ---------- //
 
-    bool passesFilter(Video* currVid, Settings obj) const;
+    bool passesFilter(Video* currVid);
 
     // ----------  MEMORY AND DATA MANAGEMENT HELPERS ---------- //
     void copyVals(const Graph& original);
@@ -24,9 +24,9 @@ class Graph {
 
     // ----------  GRAPH TRAVERSAL HELPERS ---------- //
 
-    bool addToTraversal(std::unordered_set<std::string>& visited, std::string videoID) const;
+    bool addToTraversal(std::unordered_set<std::string>& visited, std::string videoID);
     void helperTraversePostorderDepthFirstN(std::string currID,
-    std::vector<Video*>& result, std::unordered_set<std::string>& visited, int n) const;
+    std::vector<Video*>& result, std::unordered_set<std::string>& visited, int n);
 
 public:
     // ----------  MEMORY AND DATA MANAGEMENT FUNCTIONS ---------- //
@@ -43,23 +43,23 @@ public:
 
     // ----------  GRAPH TRAVERSALS ---------- //
 
-    std::pair<std::vector<Video*>, double> traverseBreadthFirstN(std::string startID, int n) const; 
-    std::pair<std::vector<Video*>, double> traversePostorderDepthFirstN(std::string startID, int n) const;
+    std::pair<std::vector<Video*>, double> traverseBreadthFirstN(std::string startID, int n);
+    std::pair<std::vector<Video*>, double> traversePostorderDepthFirstN(std::string startID, int n);
 
     // ----------  GETTERS ---------- //
 
-    int getSize() const;
-    int getNumRootVideos() const;
-    std::vector<Video*> getNFilteredRootVideos(int n) const;
-    float getSimilarityScore(std::string firstVidID, std::string secondVidID) const;
-    float getSimilarityScore(Video* firstVid, Video* secondVid) const;
+    int getSize();
+    int getNumRootVideos();
+    std::vector<Video*> getNFilteredRootVideos(int n);
+    float getSimilarityScore(std::string firstVidID, std::string secondVidID);
+    float getSimilarityScore(Video* firstVid, Video* secondVid);
     Video* getVideoByID(std::string vidID);
     /// TODO: Delete function after debugging. Please use only for debugging and not actual implementations
-    std::vector<std::string> getRootVideoIDs() const;
+    std::vector<std::string> getRootVideoIDs();
     /// TODO: Delete function after debugging. Please use only for debugging and not actual implementations
-    std::vector<Video*> getRootVideos() const;
+    std::vector<Video*> getRootVideos();
 
     // ----------  SETTERS ---------- //
 
-    void setFilterInfo(Settings filterInfo);
+    void setFilterInfo(Settings &filterInfo);
 };
